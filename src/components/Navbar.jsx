@@ -65,23 +65,24 @@ const Navbar = () => {
         </Link>
         <div>
           <ul style={{ color: `${linkColor}` }} className='hidden md:flex'>
-            <li className='ml-10 text-sm uppercase hover:border-b'>
-              <Link href='/'>Home</Link>
+            <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
+              <Link href='/' className="">Home</Link>
+              
             </li>
-            <li className='ml-10 text-sm uppercase hover:border-b'>
+            <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
               <Link href='/#about'>About</Link>
             </li>
-            <li className='ml-10 text-sm uppercase hover:border-b'>
+            <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
               <Link href='/#skills'>Skills</Link>
             </li>
-            <li className='ml-10 text-sm uppercase hover:border-b'>
+            <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
               <Link href='/#projects'>Projects</Link>
             </li>
-            <li className='ml-10 text-sm uppercase hover:border-b'>
+            <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
               <Link href='/#contact'>Contact</Link>
             </li>
-            <li className='ml-10 text-sm uppercase hover:border-b'>
-              <Link href='/resume'>Resume</Link>
+            <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
+              <Link href='/#resume'>Resume</Link>
             </li>
           </ul>
           {/* Hamburger Icon */}
@@ -115,7 +116,7 @@ const Navbar = () => {
               <Link href='/'>
                 
                   <Image
-                    src={LogoImg}
+                    src='/../public/nextlogopng.png'
                     width='67'
                     height='35'
                     alt='/'
@@ -157,7 +158,7 @@ const Navbar = () => {
                   Projects
                 </li>
               </Link>
-              <Link href='/resume'>
+              <Link href='/#resume'>
                 <li onClick={() => setNav(false)} className='py-4 text-sm'>
                   Resume
                 </li>
@@ -199,7 +200,7 @@ const Navbar = () => {
                     <AiOutlineMail />
                   </div>
                 </Link>
-                <Link href='/resume'>
+                <Link href='/#resume'>
                   <div
                     onClick={() => setNav(!nav)}
                     className='rounded-full shadow-lg shadow-cyan-400 p-3 cursor-pointer hover:scale-105 ease-in duration-300'

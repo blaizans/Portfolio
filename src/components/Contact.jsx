@@ -61,7 +61,7 @@ const Contact = () => {
                     <AiOutlineMail />
                   </div>
                 </Link>
-                <Link href="/resume">
+                <Link href="/#resume">
                   <div
                     className="rounded-full shadow-lg shadow-cyan-400 p-6 cursor-pointer hover:scale-105 ease-in duration-300"
                   >
@@ -114,7 +114,7 @@ const Contact = () => {
                   <input
                     className='border-2 rounded-lg p-3 flex text-indigo-400 border-cyan-300'
                     type='text'
-                    name='subject' required
+                    name='subject'
                   />
                 </div>
                 <div className='flex flex-col py-2'>
@@ -122,7 +122,7 @@ const Contact = () => {
                   <textarea
                     className='border-2 rounded-lg p-3 text-indigo-400 border-cyan-300'
                     rows='10'
-                    name='message' required
+                    name='message'
                   ></textarea>
                 </div>
                 <button className='w-full p-4 text-white mt-4 shadow-sm bg-gradient-to-r from-indigo-300 to-cyan-300'>

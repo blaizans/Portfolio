@@ -63,7 +63,7 @@ const Main = () => {
               </div>
             </Link>
           </div>
-          <div id="about" className="">
+          <div id="about" >
             <button className="bg-[#344e64]"></button>
           </div>
         </div>

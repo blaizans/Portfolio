@@ -36,7 +36,6 @@ const Projects = () => {
 
             </div>
         </div>
-        <div id="contact" className=''><button className='bg-[#344e64]'></button></div>
     </div>
     
   )
