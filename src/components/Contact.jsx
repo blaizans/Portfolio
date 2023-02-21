@@ -87,7 +87,7 @@ const Contact = () => {
                     <input
                       className='border-2 rounded-lg p-3 flex text-indigo-400 border-cyan-300'
                       type='text'
-                      name='name'
+                      name='name' required
                     />
                   </div>
                   <div className='flex flex-col'>
@@ -106,7 +106,7 @@ const Contact = () => {
                   <input
                     className='border-2 rounded-lg p-3 flex text-indigo-400 border-cyan-300'
                     type='email'
-                    name='email'
+                    name='email' required
                   />
                 </div>
                 <div className='flex flex-col py-2'>
@@ -114,7 +114,7 @@ const Contact = () => {
                   <input
                     className='border-2 rounded-lg p-3 flex text-indigo-400 border-cyan-300'
                     type='text'
-                    name='subject'
+                    name='subject' required
                   />
                 </div>
                 <div className='flex flex-col py-2'>
@@ -122,7 +122,7 @@ const Contact = () => {
                   <textarea
                     className='border-2 rounded-lg p-3 text-indigo-400 border-cyan-300'
                     rows='10'
-                    name='message'
+                    name='message' required
                   ></textarea>
                 </div>
                 <button className='w-full p-4 text-white mt-4 shadow-sm bg-gradient-to-r from-indigo-300 to-cyan-300'>
