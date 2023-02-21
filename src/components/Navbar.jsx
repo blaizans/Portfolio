@@ -116,7 +116,7 @@ const Navbar = () => {
               <Link href='/'>
                 
                   <Image
-                    src='/../public/nextlogopng.png'
+                    src={LogoImg}
                     width='67'
                     height='35'
                     alt='/'
