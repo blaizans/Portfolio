@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 const DownloadCV = () => {
     const router = useRouter();
     function download() {
-        const URL = '\CV - Bruno Laizans.pdf'
+        const URL = '\BrunoLaizans.pdf'
         if (typeof window !== "undefined"){
           window.location.href = URL
         }
