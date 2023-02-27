@@ -1,2 +1,2 @@
 ## This portfolio was made using Next.js and TailwindCSS frameworks
-![alt text](https://github.com/blaizans/Portfolio/blob/public/this.jpg?raw=true)
+![alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png)
