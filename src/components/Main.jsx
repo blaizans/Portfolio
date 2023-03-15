@@ -16,7 +16,7 @@ const Main = () => {
             Hi, I'm <span className="text-[cyan] ">Bruno</span>
           </h1>
           <h1 className="drop-shadow-xl hover:drop-shadow-2xl transition-all duration-300 cursor-pointer">
-            Junior Software Engineer{" "}
+            Full-Stack Software Developer{" "}
           </h1>
           <p className="py-4 text-indigo-300 max-w-[70%] m-auto cursor-default">
             Welcome to my portfolio website! As a 3rd semester/2nd year student
