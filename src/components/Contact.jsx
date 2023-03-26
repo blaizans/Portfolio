@@ -28,7 +28,7 @@ const Contact = () => {
               </div>
               <div className="">
                 <h2 className="py-2">Bruno Laizans</h2>
-                <p>Junior Software Engineer</p>
+                <p>Full-Stack Software Developer</p>
                 <p className="py-4">
                   I am available for part-time on-site/remote or remote
                   full-time positions.
