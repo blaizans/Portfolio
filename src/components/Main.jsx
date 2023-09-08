@@ -54,7 +54,7 @@ const Main = () => {
                 <AiOutlineMail />
               </div>
             </Link>
-            <Link href="/resume">
+            <Link href="#resume">
               <div
                 onClick={() => setNav(!nav)}
                 className="rounded-full shadow-lg shadow-cyan-400 p-6 cursor-pointer hover:scale-105 ease-in duration-300"
