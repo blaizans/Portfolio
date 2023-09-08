@@ -19,10 +19,10 @@ const Main = () => {
             Full-Stack Software Developer{" "}
           </h1>
           <p className="py-4 text-indigo-300 max-w-[70%] m-auto cursor-default">
-            Welcome to my portfolio website! As a 3rd semester/2nd year student
+            Welcome to my portfolio website! As a 4th semester/2nd year student
             in Software Engineering from Latvia, I have a passion for creating
             innovative and efficient software solutions. Currently residing in
-            Horsens, Denmark, I am excited to showcase my work using Next.js and
+            Horsens, Denmark. I am excited to showcase my work using Next.js and
             TailwindCSS. Explore my projects and experience my dedication to the
             world of software engineering.
           </p>
