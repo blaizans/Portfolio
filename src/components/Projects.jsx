@@ -5,6 +5,7 @@ import propertyImg from '/public/rc.jpg'
 import portfolioImg from '/public/this.jpg'
 import slaughterhouse from '/public/Slaughterhouse.jpg'
 import synctask from '/public/synctask.png'
+import pokedex from '/public/pokedex.png'
 
 const Projects = () => {
   return (
@@ -15,7 +16,7 @@ const Projects = () => {
             <div className='grid md:grid-cols-2 gap-8'>
                 
                 <div className='relative flex items-center justify-center h-auto w-full shadow-xl shadow-indigo-300 rounded-xl p-4 group hover:bg-gradient-to-r from-indigo-300 to-cyan-300'>
-                    <Image src={propertyImg} alt='/' className='rounded-xl group-hover:opacity-10 duration-500'/>
+                    <Image src={propertyImg} alt='/RigaCup' className='rounded-xl group-hover:opacity-10 duration-500'/>
                     <div className='hidden group-hover:block absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] duration-500'>
                         <h3 className='text-2xl text-white tracking-wider text-center cursor-default'>Riga Cup</h3>
                         <p className='pb-4 pt-2 text-white text-center cursor-default'>TypeScript/Next.js/Firebase</p>
@@ -26,7 +27,7 @@ const Projects = () => {
                 </div>
 
                 <div className='relative flex items-center justify-center h-auto w-full shadow-xl shadow-indigo-300 rounded-xl p-4 group hover:bg-gradient-to-r from-indigo-300 to-cyan-300'>
-                    <Image src={portfolioImg} alt='/' className='rounded-xl group-hover:opacity-10 duration-500'/>
+                    <Image src={portfolioImg} alt='/portfolio' className='rounded-xl group-hover:opacity-10 duration-500'/>
                     <div className='hidden group-hover:block absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] duration-500'>
                         <h3 className='text-2xl text-white tracking-wider text-center cursor-default'>This Portfolio</h3>
                         <p className='pb-4 pt-2 text-white text-center cursor-default'>Next.JS/TailwindCSS</p>
@@ -37,7 +38,7 @@ const Projects = () => {
                 </div>
 
                 <div className='relative flex items-center justify-center h-auto w-full shadow-xl shadow-indigo-300 rounded-xl p-4 group hover:bg-gradient-to-r from-indigo-300 to-cyan-300'>
-                    <Image src={slaughterhouse} alt='/' className='rounded-xl group-hover:opacity-10 duration-500'/>
+                    <Image src={slaughterhouse} alt='/slaughterhouse' className='rounded-xl group-hover:opacity-10 duration-500'/>
                     <div className='hidden group-hover:block absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] duration-500'>
                         <h3 className='text-2xl text-white tracking-wider text-center cursor-default'>Rest API</h3>
                         <p className='pb-4 pt-2 text-white text-center cursor-default'>Java/Springboot</p>
@@ -46,12 +47,28 @@ const Projects = () => {
                         </Link>
                     </div>
                 </div>
+                <div className='relative flex items-center justify-center h-auto w-full shadow-xl shadow-indigo-300 rounded-xl p-4 group hover:bg-gradient-to-r from-indigo-300 to-cyan-300'>
+                    <Image src={pokedex} alt='/Pokedex' className='rounded-xl group-hover:opacity-10 duration-500'/>
+                    <div className='hidden group-hover:block absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] duration-500'>
+                        <h3 className='text-2xl text-white tracking-wider text-center cursor-default'>Pokedex with PokeApi</h3>
+                        <p className='pb-4 pt-2 text-white text-center cursor-default'>Javascript/TailwindCSS</p>
+                        <Link href="https://github.com/blaizans/pokedex">
+                            <p className='text-center py-3 rounded-lg bg-white text-indigo-300 font-bold text-lg cursor-pointer'>Code</p>
+                        </Link>
+                        <Link href="https://blaizans.github.io/pokedex">
+                            <p className='text-center py-3 rounded-lg bg-white text-indigo-300 font-bold text-lg cursor-pointer'>Live</p>
+                        </Link>
+                    </div>
+                </div>
 
 <div className='relative flex items-center justify-center h-auto w-full shadow-xl shadow-indigo-300 rounded-xl p-4 group hover:bg-gradient-to-r from-indigo-300 to-cyan-300'>
-                    <Image src={synctask} alt='/' className='rounded-xl group-hover:opacity-10 duration-500'/>
+                    <Image src={synctask} alt='/synctask' className='rounded-xl group-hover:opacity-10 duration-500'/>
                     <div className='hidden group-hover:block absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] duration-500'>
-                        <h3 className='text-2xl text-white tracking-wider text-center cursor-default'>Semester Project(Ongoing)</h3>
+                        <h3 className='text-2xl text-white tracking-wider text-center cursor-default'>Semester Project</h3>
                         <p className='pb-4 pt-2 text-white text-center cursor-default'>.NET/Springboot/Blazor</p>
+                        <Link href="https://github.com/blaizans/SyncTask-2.0">
+                            <p className='text-center py-3 rounded-lg bg-white text-indigo-300 font-bold text-lg cursor-pointer'>Code</p>
+                        </Link>
                     </div>
                 </div>
             </div>

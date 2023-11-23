@@ -1,12 +1,14 @@
 {
-  "name": "nextapp",
+  "name": "@blaizans/portfolio",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@blaizans"
+  },
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
-    "test": "jest"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@next/font": "13.1.5",
@@ -17,6 +19,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
+    "jest": "^29.7.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
   }
