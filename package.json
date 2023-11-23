@@ -1,9 +1,9 @@
 {
-  "name": "portfolio",
+  "name": "Portfolio",
   "version": "0.1.0",
   "private": false,
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@bl1os"
+    "registry": "https://npm.pkg.github.com/@blaizans"
   },
   "scripts": {
     "dev": "node server.js",
