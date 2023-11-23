@@ -1,12 +1,14 @@
 {
-  "name": "nextapp",
+  "name": "portfolio",
   "version": "0.1.0",
   "private": true,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@bl1os"
+  },
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
-    "test": "jest"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@next/font": "13.1.5",
