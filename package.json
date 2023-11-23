@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@blaizans"
+    "registry": "https://npm.pkg.github.com/@bl1os"
   },
   "scripts": {
     "dev": "node server.js",
