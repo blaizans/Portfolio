@@ -34,4 +34,21 @@ html {
   button {
     @apply shadow-xl shadow-cyan-400 rounded-xl uppercase bg-gradient-to-r from-indigo-300 to-cyan-300 text-white
   }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    20% {
+      transform: translateY(-10px);
+    }
+    20% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  /* Applying the custom animation to your element */
+  .animate-bounce-custom {
+    animation: bounce 5s infinite;
+  }
 }

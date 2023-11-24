@@ -81,9 +81,9 @@ const Navbar = () => {
             <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
               <Link href='/#contact'>Contact</Link>
             </li>
-            <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
+            {/* <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
               <Link href='/#resume'>Resume</Link>
-            </li>
+            </li> */}
           </ul>
           {/* Hamburger Icon */}
           <div
@@ -158,11 +158,11 @@ const Navbar = () => {
                   Projects
                 </li>
               </Link>
-              <Link href='/#resume'>
+              {/* <Link href='/#resume'>
                 <li onClick={() => setNav(false)} className='py-4 text-sm'>
                   Resume
                 </li>
-              </Link>
+              </Link> */}
               <Link href='/#contact'>
                 <li onClick={() => setNav(false)} className='py-4 text-sm'>
                   Contact
