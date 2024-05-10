@@ -22,7 +22,3 @@ Leveraging Next.js for server-side rendering, optimizing performance, and provid
 
 ### Tailwind CSS
 Styling made easy and elegant with Tailwind CSS, ensuring a responsive and visually stunning design.
-
-## Conclusion
-
-This portfolio is a testament to pushing boundaries, mixing technologies, and crafting delightful user experiences. Stay tuned for more exciting updates and projects! 🌟
