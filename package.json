@@ -1,6 +1,6 @@
 {
   "name": "@blaizans/portfolio",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "private": false,
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@blaizans"
