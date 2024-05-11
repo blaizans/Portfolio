@@ -16,23 +16,19 @@ const About = () => {
             Let Me Introduce Myself
           </h2>
           <p className="py-2 text-indigo-300 cursor-default text-justify">
-            My journey to becoming a programmer/software developer was an
-            interesting one. I had dedicated my life to football and always
-            thought it would be my career. However, at the age of 18, I decided
-            to pursue my passion for coding and haven't looked back since.{" "}
+            My journey into software development started with browser's "Inspect element" feature before showing parents my school grades. Something catched my attention then and now I 
+            pursue my passion for coding and haven't looked back since.{" "}
           </p>
           <p className="py-2 text-indigo-300 cursor-default text-justify">
             One thing that football taught me is the importance of discipline
             and a healthy lifestyle. These values have carried over into my work
             as a developer and have helped me to remain focused and committed to
-            my projects. I take pride in delivering high-quality work that meets
-            the needs of my clients and ensures their success.{" "}
+            my projects. I take pride in creating high-quality work that improves my knowledge.{" "}
           </p>
           <p className="py-2 text-indigo-300 cursor-default text-justify">
             As you navigate through my portfolio, you will see that I have a
             diverse range of skills and experience, from web development to
-            backend development. My goal is to continuously learn and improve my
-            skills, so I can offer the best solutions for my clients.{" "}
+            backend development. My goal is to Never Stop Developing!{" "}
           </p>
           <p className="py-2 text-indigo-300 cursor-default text-justify">
             Thank you for taking the time to learn about me and my work. I look
@@ -48,7 +44,7 @@ const About = () => {
         <div className="w-full h-auto m-auto shadow-xl shadow-indigo-300 rounded-xl flex items-center justify-center p-4 hover:scale-105 ease-in duration-300">
           <Image src={AboutImg} className="rounded-xl" alt="/" />
         </div>
-        <div id="skills" className="">
+        <div id="experience" className="">
           <button className="bg-[#344e64]"></button>
         </div>
       </div>

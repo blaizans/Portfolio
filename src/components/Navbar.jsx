@@ -73,13 +73,13 @@ const Navbar = () => {
               <Link href='/#about'>About</Link>
             </li>
             <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
-              <Link href='/#skills'>Skills</Link>
+              <Link href='/#experience'>Experience</Link>
             </li>
             <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
               <Link href='/#projects'>Projects</Link>
             </li>
             <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
-              <Link href='/#contact'>Contact</Link>
+              <Link href='/#skills'>Toolset</Link>
             </li>
             {/* <li className='ml-10 text-sm uppercase inline-block border-b-0 border-transparent hover:border-white ease-in-out duration-300'>
               <Link href='/#resume'>Resume</Link>
@@ -148,9 +148,9 @@ const Navbar = () => {
                   About
                 </li>
               </Link>
-              <Link href='/#skills'>
+              <Link href='/#experience'>
                 <li onClick={() => setNav(false)} className='py-4 text-sm'>
-                  Skills
+                  Experience
                 </li>
               </Link>
               <Link href='/#projects'>
@@ -158,16 +158,21 @@ const Navbar = () => {
                   Projects
                 </li>
               </Link>
+              <Link href='/#skills'>
+                <li onClick={() => setNav(false)} className='py-4 text-sm'>
+                  My Toolset
+                </li>
+              </Link>
               {/* <Link href='/#resume'>
                 <li onClick={() => setNav(false)} className='py-4 text-sm'>
                   Resume
                 </li>
               </Link> */}
-              <Link href='/#contact'>
+              {/* <Link href='/#contact'>
                 <li onClick={() => setNav(false)} className='py-4 text-sm'>
                   Contact
                 </li>
-              </Link>
+              </Link> */}
             </ul>
             <div className='pt-7'>
               <p className='uppercase tracking-widest text-cyan-200'>
@@ -192,22 +197,22 @@ const Navbar = () => {
                     <FaGithub />
                   </div>
                 </a>
-                <Link href='/#contact'>
+                {/* <Link href='/#contact'>
                   <div
                     onClick={() => setNav(!nav)}
                     className='rounded-full shadow-lg shadow-cyan-400 p-3 cursor-pointer hover:scale-105 ease-in duration-300'
                   >
                     <AiOutlineMail />
                   </div>
-                </Link>
-                <Link href='/#resume'>
+                </Link> */}
+                {/* <Link href='/#resume'>
                   <div
                     onClick={() => setNav(!nav)}
                     className='rounded-full shadow-lg shadow-cyan-400 p-3 cursor-pointer hover:scale-105 ease-in duration-300'
                   >
                     <BsFillPersonLinesFill />
                   </div>
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

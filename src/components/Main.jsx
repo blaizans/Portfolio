@@ -9,7 +9,7 @@ import Image from "next/image";
 const Main = () => {
   return (
     <div className="w-full pt-6 text-center justify-center">
-      <div class="sm:flex md:flex lg:grid grid-cols-2">
+      <div className="sm:flex md:flex lg:grid grid-cols-2">
         <div className="max-w-[1240px] w-full h-full mx-auto flex justify-center items-center">
           <div className="lg:ml-60">
             <p className="uppercase text-sm tracking-widest text-indigo-300 cursor-default pb-3 pt-36">
@@ -22,23 +22,22 @@ const Main = () => {
               Full-Stack Software Developer{" "}
             </h1>
             <p className="py-4 text-indigo-300 max-w-[70%] m-auto cursor-default">
-              Welcome to my portfolio website! As a 4th semester/2nd year
-              student in Software Engineering from Latvia, I have a passion for
+              Welcome to my portfolio website! As a 6th semester/3rd year
+              student in Software Engineering, I have a passion for
               creating innovative and efficient software solutions.
             </p>
             <p className="py-4 text-indigo-300 max-w-[70%] m-auto cursor-default hidden lg:block">
-              Currently residing in Horsens, Denmark. I am excited to showcase
-              my work using Next.js and TailwindCSS. Explore my projects and
-              experience my dedication to the world of software engineering.
+              Currently getting into software engineering through an internship in Denmark's largest IT company. Find more aboutme, my projects and
+              experience, my dedication to the world of software engineering.
             </p>
 
-            <div className="flex items-center justify-between max-w-[330px] m-auto py-4">
+            <div className="flex items-center justify-around max-w-[330px] m-auto py-4">
               <a
                 href="https://www.linkedin.com/in/bruno-laizans/"
                 target="_blank"
                 rel="noreferrer"
               >
-                <div className="rounded-full shadow-lg shadow-cyan-400 p-6 cursor-pointer hover:scale-105 ease-in duration-300">
+                <div className="rounded-full shadow-lg shadow-cyan-400 p-6 cursor-pointer hover:scale-105 ease-in duration-300 ">
                   <FaLinkedinIn />
                 </div>
               </a>
@@ -51,7 +50,7 @@ const Main = () => {
                   <FaGithub />
                 </div>
               </a>
-              <Link href="/#contact">
+              {/* <Link href="/#contact">
                 <div
                   onClick={() => setNav(!nav)}
                   className="rounded-full shadow-lg shadow-cyan-400 p-6 cursor-pointer hover:scale-105 ease-in duration-300"
@@ -66,7 +65,7 @@ const Main = () => {
                 >
                   <BsFillPersonLinesFill />
                 </div>
-              </Link>
+              </Link> */}
             </div>
             <div id="about">
               <button className="bg-[#344e64]"></button>
