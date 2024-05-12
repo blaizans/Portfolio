@@ -13,7 +13,7 @@ const MoveUp = () => {
   return (
     <footer className="bg-[#203241] text-white py-8 pb-8">
       <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center">
-        <div className="flex flex-col items-start lg:justify-items-start space-y-4 lg:space-y-0 lg:space-x-4 mb-4 lg:mb-0">
+        <div className="flex flex-col items-start lg:justify-items-start space-y-4 lg:space-y-0 lg:space-x-4 mb-4 lg:mb-0 ml-4">
           <Link
             href="/"
             smooth={true}
@@ -61,7 +61,7 @@ const MoveUp = () => {
           </Link>
         </div>
         <p className="text-lg mb-4 lg:text-center">"Never Stop Developing!"</p>
-        <div className="flex justify-center lg:justify-end ">
+        <div className="flex justify-center lg:justify-end mr-4">
           <Link href="/">
             <div className="rounded-full shadow-md shadow-cyan-300 p-4 cursor-pointer hover:scale-110 ease-in duration-300 mb-8">
               <HiOutlineChevronDoubleUp className="text-cyan-300 " size={30} />
