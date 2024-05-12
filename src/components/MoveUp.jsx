@@ -16,7 +16,6 @@ const MoveUp = () => {
         <div className="flex flex-col items-start lg:justify-items-start space-y-4 lg:space-y-0 lg:space-x-4 mb-4 lg:mb-0 ml-4">
           <Link
             href="/"
-            smooth={true}
             duration={500}
             className="flex items-center text-gray-300 hover:text-white cursor-pointer"
           >
@@ -25,7 +24,6 @@ const MoveUp = () => {
           </Link>
           <Link
             href="/#about"
-            smooth={true}
             duration={500}
             className="flex items-center text-gray-300 hover:text-white cursor-pointer"
           >
@@ -34,7 +32,6 @@ const MoveUp = () => {
           </Link>
           <Link
             href="/#experience"
-            smooth={true}
             duration={500}
             className="flex items-center text-gray-300 hover:text-white cursor-pointer"
           >
@@ -43,7 +40,6 @@ const MoveUp = () => {
           </Link>
           <Link
             href="/#projects"
-            smooth={true}
             duration={500}
             className="flex items-center text-gray-300 hover:text-white cursor-pointer"
           >
@@ -52,7 +48,6 @@ const MoveUp = () => {
           </Link>
           <Link
             href="/#skills"
-            smooth={true}
             duration={500}
             className="flex items-center text-gray-300 hover:text-white cursor-pointer"
           >

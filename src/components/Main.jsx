@@ -78,7 +78,7 @@ const Main = () => {
               src={heroImg}
               alt="/heroImg"
               className="rounded-lg"
-              width={600}
+              width={600} priority={true}
             />
           </div>
         </div>
