@@ -1,27 +1,22 @@
 {
   "name": "@blaizans/portfolio",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": false,
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@blaizans"
   },
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "next start"
   },
   "dependencies": {
-    "@next/font": "13.1.5",
-    "flowbite": "^2.3.0",
-    "help-version": "^1.1.1",
     "next": "13.1.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-icons": "^4.7.1"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
-    "jest": "^29.7.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
   }

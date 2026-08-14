@@ -1,54 +1,911 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "./fonts.css";
 
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  --c-black: #131313;
+  --c-black-rgb: 19, 19, 19;
+  --c-white: #f0f0f0;
+  --c-white-rgb: 240, 240, 240;
+  --c-gray: #e4e4e4;
+  --c-gray-rgb: 228, 228, 228;
 
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+  --accent: #1b32ff;
+  --accent-rgb: 27, 50, 255;
+  --accent-light: #828eff;
+  --accent-light-rgb: 130, 142, 255;
 
-html {
-  scroll-behavior: smooth !important;
-  font-family: 'Raleway', sans-serif;
+  /* Self-hosted via fonts.css — @font-face declarations below, no runtime
+     request to Google Fonts. Russian body text falls through to the
+     fallback stack here; Instrument Sans has no Cyrillic subset upstream. */
+  --display-font: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  /* Heavy condensed grotesque — used only at poster scale in the hero */
+  --poster-font: "Anton", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --body-font: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono-font: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fs-hero: clamp(2.6rem, 1.5rem + 5.1vw, 8rem);
+  --fs-display: clamp(2rem, 1.2rem + 3.2vw, 4.5rem);
+  --fs-title: clamp(1.3rem, 1rem + 1.2vw, 2rem);
+  --fs-body: clamp(1rem, 0.96rem + 0.25vw, 1.125rem);
+  --fs-mono: 0.8125rem;
+
+  /* Section rhythm. Three steps, assigned by importance — not one constant.
+     `standard` is the original value, so unmarked zones are unchanged. */
+  --zone-y: max(60px, min(9vw, 160px));
+  --zone-y-compact: max(44px, min(6vw, 104px));
+  --zone-y-expansive: max(80px, min(12vw, 216px));
+  --gutter: max(20px, min(4vw, 80px));
+  --maxw: 1600px;
+
+  --ease: cubic-bezier(0.25, 0.74, 0.22, 0.99);
+  --dur-fast: 180ms;
+  --dur-mid: 420ms;
+  --dur-slow: 900ms;
+
+  --nav-h: 72px;
+
+  /* default zone = dark */
+  --t-bg: var(--c-black);
+  --t-text: var(--c-white);
+  --t-muted: rgba(var(--c-white-rgb), 0.6);
+  --t-line: rgba(var(--c-white-rgb), 0.16);
+  --t-line-strong: rgba(var(--c-white-rgb), 0.34);
+  --t-accent: var(--accent-light);
+  --t-invert-bg: var(--c-white);
+  --t-invert-text: var(--c-black);
 }
 
+/* ============================================================
+   ZONES — every component inherits its theme from these
+   ============================================================ */
+.ui-dark {
+  --t-bg: var(--c-black);
+  --t-text: var(--c-white);
+  --t-muted: rgba(var(--c-white-rgb), 0.6);
+  --t-line: rgba(var(--c-white-rgb), 0.16);
+  --t-line-strong: rgba(var(--c-white-rgb), 0.34);
+  --t-accent: var(--accent-light);
+  --t-invert-bg: var(--c-white);
+  --t-invert-text: var(--c-black);
+}
+
+.ui-light {
+  --t-bg: var(--c-white);
+  --t-text: var(--c-black);
+  --t-muted: rgba(var(--c-black-rgb), 0.62);
+  --t-line: rgba(var(--c-black-rgb), 0.14);
+  --t-line-strong: rgba(var(--c-black-rgb), 0.3);
+  --t-accent: var(--accent);
+  --t-invert-bg: var(--c-black);
+  --t-invert-text: var(--c-white);
+}
+
+.ui-gray {
+  --t-bg: var(--c-gray);
+  --t-text: var(--c-black);
+  --t-muted: rgba(var(--c-black-rgb), 0.62);
+  --t-line: rgba(var(--c-black-rgb), 0.16);
+  --t-line-strong: rgba(var(--c-black-rgb), 0.32);
+  --t-accent: var(--accent);
+  --t-invert-bg: var(--c-black);
+  --t-invert-text: var(--c-white);
+}
+
+.ui-dark,
+.ui-light,
+.ui-gray {
+  background-color: var(--t-bg);
+  color: var(--t-text);
+}
+
+.zone {
+  padding-top: var(--zone-y);
+  padding-bottom: var(--zone-y);
+  position: relative;
+}
+
+/* Density levels. Work and Contact breathe; Experience and Toolset compress.
+   Spacing carries hierarchy rather than being a page-wide constant. */
+.zone-compact {
+  padding-top: var(--zone-y-compact);
+  padding-bottom: var(--zone-y-compact);
+}
+
+.zone-expansive {
+  padding-top: var(--zone-y-expansive);
+  padding-bottom: var(--zone-y-expansive);
+}
+
+.shell {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
 @layer base {
+  * {
+    min-width: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* offset for the fixed header when jumping to #anchors */
+    scroll-padding-top: var(--nav-h);
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-[#344e64] text-[White] tracking-wide 
+    background-color: var(--c-black);
+    color: var(--c-white);
+    font-family: var(--body-font);
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--display-font);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    text-wrap: balance;
   }
 
-  h1 {
-    @apply text-4xl sm:text-5xl md:text-6xl 
+  ::selection {
+    background: var(--accent);
+    color: #fff;
   }
 
-  h2 {
-    @apply text-3xl sm:text-4xl
-  }
-  
-  li {
-    @apply cursor-pointer ml-10 text-sm uppercase hover:border-b text-white
-  }
-
-  button {
-    @apply shadow-xl shadow-cyan-400 rounded-xl uppercase bg-gradient-to-r from-indigo-300 to-cyan-300 text-white
+  /* Visible focus ring everywhere — never removed */
+  :focus-visible {
+    outline: 2px solid var(--t-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-      transform: translateY(0);
-    }
-    20% {
-      transform: translateY(-10px);
-    }
-    20% {
-      transform: translateY(-10px);
-    }
+  img,
+  svg {
+    max-width: 100%;
+    height: auto;
   }
-  
-  /* Applying the custom animation to your element */
-  .animate-bounce-custom {
-    animation: bounce 5s infinite;
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================ */
+.mono {
+  font-family: var(--mono-font);
+  font-size: var(--fs-mono);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-hero {
+  font-size: var(--fs-hero);
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.t-display {
+  font-size: var(--fs-display);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.t-title {
+  font-size: var(--fs-title);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.t-muted {
+  color: var(--t-muted);
+}
+
+.measure {
+  max-width: 62ch;
+}
+
+/* ============================================================
+   HERO — poster lockup over the flow-field canvas
+   ============================================================ */
+.poster {
+  font-family: var(--poster-font);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  font-size: var(--poster-size, clamp(3.2rem, 1rem + 12vw, 11rem));
+}
+
+/* Section-scale poster line. Used for translated headings, so it is defined
+   here rather than inline — the locale override below has to be able to win. */
+.poster-face {
+  font-family: var(--poster-font);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.6rem, 0.8rem + 6.4vw, 7rem);
+}
+
+/* Anton ships Latin only. Translated poster text that renders in Cyrillic
+   uses the display grotesque at its heaviest instead, so it still reads as a
+   poster line rather than dropping to a thin, wide fallback face.
+   The name lockup is unaffected — "Bruno Laizans" is Latin in every locale. */
+html:lang(ru) .poster-face {
+  font-family: var(--display-font);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  font-size: clamp(2.2rem, 0.8rem + 5.2vw, 5.5rem);
+}
+
+/* Outlined (stroke-only) line — the magazine-cover signature */
+.poster-outline {
+  color: transparent;
+  -webkit-text-stroke: clamp(1px, 0.14vw, 2.5px) var(--t-text);
+  paint-order: stroke fill;
+}
+
+/* Fills in on hover, so the lockup responds to the cursor */
+.poster-outline {
+  transition: color var(--dur-slow) var(--ease);
+}
+
+.hero-lockup:hover .poster-outline {
+  color: var(--accent-light);
+  -webkit-text-stroke-color: var(--accent-light);
+}
+
+/* Two stacked lockup lines. The available width is the viewport minus the
+   gutters and the index rail, so each word is sized against that rather than
+   the raw viewport. "Bruno" renders 2.358x its font-size in Anton and
+   "Laizans" 2.857x (measured), which is what keeps the two lines optically
+   flush despite their different letter counts. */
+.poster-lockup {
+  --rail: 3.5rem; /* index rail + gap */
+  --poster-avail: calc(100vw - 2 * min(4vw, 80px) - var(--rail));
+  --poster-size: min(calc(var(--poster-avail) / 2.857), 27vh);
+}
+
+.poster-line {
+  display: block;
+  white-space: nowrap;
+  /* Longest word governs; the shorter line is scaled up to match its width. */
+  font-size: calc(var(--poster-size) * 1.2116);
+}
+
+.poster-line.poster-outline {
+  font-size: var(--poster-size);
+}
+
+/* Second line steps into the grid so the lockup reads as a composition
+   rather than a left-aligned stack. */
+.poster-indent {
+  margin-left: 0.06em;
+}
+
+@media (min-width: 1024px) {
+  .poster-lockup {
+    --rail: 5rem;
+    /* The indented line starts 8% in, so it gets 92% of the track to fill. */
+    --poster-size: min(calc(var(--poster-avail) * 0.92 / 2.857), 27vh);
+  }
+
+  .poster-indent {
+    margin-left: 8%;
+  }
+}
+
+/* Legacy alias kept so any remaining markup keeps sizing correctly. */
+.poster-stretch {
+  display: block;
+  white-space: nowrap;
+  font-size: var(--poster-size, clamp(3rem, 15vw, 15rem));
+}
+
+/* ============================================================
+   REVEAL — one shared IntersectionObserver drives this
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity var(--dur-slow) var(--ease),
+    transform var(--dur-slow) var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+  will-change: transform, opacity;
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* Masked line-wipe for headlines */
+.reveal-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.08em;
+  margin-block: -0.08em;
+}
+
+.reveal-mask > * {
+  display: block;
+  transform: translate3d(0, 105%, 0);
+  transition: transform var(--dur-slow) var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.is-in .reveal-mask > *,
+.reveal-mask.is-in > * {
+  transform: none;
+}
+
+/* ============================================================
+   LINKS
+   ============================================================ */
+.link {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.12em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-mid) var(--ease);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.link-accent {
+  color: var(--t-accent);
+}
+
+/* Button — deliberate, not a rounded blue pill */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.75rem;
+  font-family: var(--mono-font);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--t-invert-text);
+  background: var(--t-invert-bg);
+  border: 1px solid var(--t-invert-bg);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition:
+    color var(--dur-mid) var(--ease),
+    border-color var(--dur-mid) var(--ease);
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translate3d(0, 101%, 0);
+  transition: transform var(--dur-mid) var(--ease);
+  z-index: 0;
+}
+
+.btn:hover::before,
+.btn:focus-visible::before {
+  transform: none;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-ghost {
+  color: var(--t-text);
+  background: transparent;
+  border-color: var(--t-line-strong);
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* ============================================================
+   NUMBERED ROWS — replaces the uniform card grid
+   ============================================================ */
+.rows {
+  counter-reset: row;
+  border-top: 1px solid var(--t-line);
+}
+
+.row-item {
+  counter-increment: row;
+  border-bottom: 1px solid var(--t-line);
+  position: relative;
+}
+
+.row-num::before {
+  content: counter(row, decimal-leading-zero);
+  font-family: var(--mono-font);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  color: var(--t-muted);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur-mid) var(--ease);
+  /* Participates in the row's grid as its own first-column cell,
+     so it aligns with the baseline of the title beside it. */
+  display: block;
+  line-height: inherit;
+  align-self: start;
+}
+
+/* Accent wipe fill on hover */
+.row-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--dur-mid) var(--ease);
+  z-index: 0;
+}
+
+.row-fill:hover::before,
+.row-fill:focus-within::before {
+  transform: none;
+  transform-origin: top;
+}
+
+.row-fill > * {
+  position: relative;
+  z-index: 1;
+}
+
+.row-fill:hover,
+.row-fill:focus-within {
+  color: #fff;
+}
+
+.row-fill:hover .t-muted,
+.row-fill:focus-within .t-muted,
+.row-fill:hover .row-num::before,
+.row-fill:focus-within .row-num::before {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Project thumbnails: desaturated until the row is hovered or focused.
+   Scale from the top-left corner so an anchored crop does not drift and
+   push a site's logo out of the frame. */
+.group:hover img,
+.group:focus-within img {
+  filter: grayscale(0) !important;
+  transform: scale(1.03);
+  transform-origin: left top;
+}
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: var(--marquee-gap, 3rem);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee__track {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--marquee-gap, 3rem);
+  min-width: 100%;
+  animation: marquee var(--marquee-dur, 40s) linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translate3d(calc(-100% - var(--marquee-gap, 3rem)), 0, 0);
+  }
+}
+
+/* ============================================================
+   LANGUAGE SWITCHER — target size follows input method, not
+   screen size. Fine pointer stays compact for the header row;
+   coarse pointer (touch) gets a real 44px target.
+   ============================================================ */
+.locale-btn {
+  min-height: 32px;
+  min-width: 32px;
+  padding-block: 0.25rem;
+}
+
+@media (pointer: coarse) {
+  .locale-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+.hairline {
+  border-top: 1px solid var(--t-line);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+  padding: 1rem 1.5rem;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--mono-font);
+  font-size: var(--fs-mono);
+  text-transform: uppercase;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.028;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   REGISTRATION RULES — the hero's hairline grid, carried into
+   the body. Continuity with the masthead, not a repeat of it.
+   ============================================================ */
+.registration {
+  position: relative;
+}
+
+/* Column hairlines at the same 16.66/50/83.33 stops the hero uses.
+   Applied to elements already inside `.shell`, so the stops are measured
+   against the content box — no extra gutter inset here. */
+.registration::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: linear-gradient(
+    90deg,
+    transparent calc(16.66% - 0.5px),
+    var(--t-line) calc(16.66% - 0.5px),
+    var(--t-line) calc(16.66% + 0.5px),
+    transparent calc(16.66% + 0.5px),
+    transparent calc(50% - 0.5px),
+    var(--t-line) calc(50% - 0.5px),
+    var(--t-line) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px),
+    transparent calc(83.33% - 0.5px),
+    var(--t-line) calc(83.33% - 0.5px),
+    var(--t-line) calc(83.33% + 0.5px),
+    transparent calc(83.33% + 0.5px)
+  );
+  opacity: 0.55;
+}
+
+.registration > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 1023px) {
+  .registration::before {
+    display: none;
+  }
+}
+
+/* ============================================================
+   SPECIMEN — shipped products, given the page's second peak.
+   Full-width plate + an index/meta rail, not a card.
+   ============================================================ */
+.specimen {
+  position: relative;
+  border-top: 1px solid var(--t-line);
+  padding-top: clamp(1.75rem, 1rem + 2.5vw, 3.25rem);
+}
+
+/* Index number in the hero's rail idiom: mono, accent, tabular. */
+.specimen-index {
+  font-family: var(--mono-font);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  color: var(--t-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.specimen-title {
+  font-family: var(--poster-font);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  font-size: clamp(2.6rem, 1rem + 6.4vw, 7rem);
+  text-wrap: balance;
+}
+
+/* The plate: the screenshot at full width, in colour, no crop games. */
+.specimen-plate {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: var(--t-line);
+}
+
+.specimen-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform var(--dur-slow) var(--ease);
+}
+
+.specimen-plate:hover img,
+.specimen-plate:focus-visible img {
+  transform: scale(1.015);
+}
+
+/* Placeholder plate: work with no screenshot yet. Same footprint as a real
+   plate — an abstract blurred field in the accent palette, not a disguised
+   product shot, with the status spelled out in the centre so it never reads
+   as a broken image. Static: this one doesn't earn the hover-zoom treatment
+   real evidence gets, since there's nothing behind it to reveal.
+
+   The blur lives on a ::before pseudo-element rather than the plate itself —
+   `filter` blurs an element's full rendered output, descendants included,
+   so blurring .specimen-placeholder directly would blur the label text too.
+   Splitting the gradient onto its own stacking layer keeps the label crisp. */
+.specimen-placeholder {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--t-line);
+}
+
+.specimen-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: -30px; /* overshoot so the blur's soft edge never shows the hard crop */
+  background:
+    radial-gradient(ellipse 65% 55% at 22% 30%, rgba(var(--accent-rgb), 0.55), transparent 60%),
+    radial-gradient(ellipse 55% 65% at 78% 70%, rgba(var(--accent-light-rgb), 0.45), transparent 60%);
+  filter: blur(28px) saturate(1.15);
+}
+
+.specimen-placeholder-label {
+  position: relative;
+  z-index: 1;
+  color: var(--t-text);
+  letter-spacing: 0.16em;
+  padding: 0.6em 1.1em;
+  border: 1px solid var(--t-line-strong);
+  background: var(--t-bg);
+}
+
+/* Thin accent rule that wipes across the plate's top edge on hover —
+   the same left-origin scaleX gesture the links already use. */
+.specimen-plate::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-mid) var(--ease);
+  z-index: 1;
+}
+
+.specimen-plate:hover::after,
+.specimen-plate:focus-visible::after {
+  transform: none;
+}
+
+/* About's one personal photo: same hairline-document treatment as the work
+   proof photo, so the two read as one family rather than two conventions. */
+.about-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--t-line);
+}
+
+/* Proof photo: a small, quiet secondary image — a real photo from the
+   ground rather than a product shot. Framed with a hairline so it reads
+   as a document, not a decorative crop. Desaturated at rest, full colour
+   on hover/focus — it earns attention, it doesn't compete for it. */
+.specimen-proof img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--t-line);
+  filter: grayscale(0.6) contrast(1.02);
+  transition: filter var(--dur-mid) var(--ease);
+}
+
+.specimen-proof:hover img,
+.specimen-proof:focus-within img {
+  filter: grayscale(0) contrast(1);
+}
+
+/* Fact rail: label over value, hairline-separated. Reads as a spec sheet. */
+.spec-rail {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--t-line);
+}
+
+.spec-rail > div {
+  border-bottom: 1px solid var(--t-line);
+  padding-block: 0.85rem;
+}
+
+/* ============================================================
+   TIMELINE — chronological spine. Denser than Work, and
+   deliberately not another .rows band.
+   ============================================================ */
+.timeline {
+  position: relative;
+  margin-left: 0.5rem;
+  padding-left: 1.75rem;
+  border-left: 1px solid var(--t-line);
+}
+
+.timeline-entry {
+  position: relative;
+  padding-block: 0.9rem;
+}
+
+/* Node on the spine. Hollow by default, fills with accent on hover/focus.
+   Sits on the period label's baseline row, which is the entry's first line. */
+.timeline-entry::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.75rem - 1px);
+  top: 1.5rem;
+  width: 7px;
+  height: 7px;
+  transform: translateX(-50%);
+  background: var(--t-bg);
+  border: 1px solid var(--t-line-strong);
+  border-radius: 50%;
+  transition:
+    background-color var(--dur-mid) var(--ease),
+    border-color var(--dur-mid) var(--ease);
+}
+
+.timeline-entry:hover::before,
+.timeline-entry:focus-within::before {
+  background: var(--t-accent);
+  border-color: var(--t-accent);
+}
+
+.timeline-entry:hover .timeline-org,
+.timeline-entry:focus-within .timeline-org {
+  color: var(--t-accent);
+}
+
+.timeline-org {
+  transition: color var(--dur-mid) var(--ease);
+}
+
+/* ============================================================
+   INVENTORY — the stack as a technical parts list, not rows.
+   ============================================================ */
+.inventory-group {
+  break-inside: avoid;
+}
+
+/* Items in a tight column pair. A grid — not flex-wrap — so there are no
+   wrap boundaries and therefore no orphaned separators, and the entries
+   align into a readable parts-list column instead of a ragged run-on. */
+.inventory-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.3rem 1.25rem;
+}
+
+/* Groups with few entries stay a single column rather than half-empty. */
+.inventory-list[data-count="3"],
+.inventory-list[data-count="4"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* ============================================================
+   REDUCED MOTION — content always ends visible
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-mask > * {
+    transform: none;
+  }
+
+  .marquee__track {
+    animation: none;
+  }
+
+  .marquee {
+    overflow-x: auto;
   }
 }

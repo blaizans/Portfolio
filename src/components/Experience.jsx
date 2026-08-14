@@ -1,111 +1,80 @@
 import React from "react";
-import Image from "next/image";
-import Systematic from "/public/Systematic-Logo.png";
-import RigaCup from "public/Riga Cup.svg";
-import Rema from "public/rema.jpg";
-import Via from "public/via.png";
-import ucl from "public/ucl.png";
-import rkv from "public/rkv.png";
+import { Zone, SectionHeaderCompact } from "@/components/ui/Zone";
+import { experience, education } from "@/data/site";
+import { useLocale } from "@/i18n/LocaleContext";
 
-const Experience = () => {
+/**
+ * Chronological spine rather than another band of `.rows`.
+ *
+ * Denser than Work by design: this is reference material a reader scans to
+ * verify history, not the section meant to persuade them. Period sits in the
+ * left column as a fixed-width mono gutter so the dates form a readable
+ * vertical column of their own.
+ */
+
+function Timeline({ label, entries, startIndex }) {
+  const { t } = useLocale();
+
   return (
-    <div className="w-full lg:h-screen p-2 pb-32">
-      <div className="max-w-[1240px] mx-auto flex flex-col justify-center h-full">
-        <p className="text-xl tracking-widest uppercase text-cyan-300 cursor-default">
-          Learning & Experience
-        </p>
-        <h2 className="py-4 cursor-default">Job Experience</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {" "}
-          <a href="https://systematic.com/da-dk/" target="_blank">
-            <div className="p-6 shadow-xl shadow-indigo-300 bg-zinc-100 text-zinc-800 rounded-xl hover:scale-105 ease-in duration-300">
-              <div className="grid grid-cols-2 gap-4 justify-center items-center">
-                <div className="m-auto">
-                  <Image src={Systematic} width="200" height="64" alt="/"  decoding="async" loading="lazy"/>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <h3 className="">Systematic</h3>
-                  <p className=" text-gray-500">Test Engineer</p>
-                  <p className=" text-gray-500">2024 - Now</p>
-                </div>
+    <div>
+      <h3 className="mono t-muted reveal">{label}</h3>
+
+      <div className="timeline mt-5">
+        {entries.map((entry, index) => (
+          <div key={entry.org} className="timeline-entry reveal" style={{ "--i": startIndex + index }}>
+            <div className="grid gap-x-6 gap-y-1 sm:grid-cols-[7.5rem_minmax(0,1fr)]">
+              <span className="mono t-muted pt-1">{entry.period}</span>
+
+              <div>
+                <h4 className="t-title timeline-org">
+                  <a
+                    href={entry.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="link"
+                  >
+                    {entry.org}
+                  </a>
+                </h4>
+                <p className="mono t-muted mt-1.5">
+                  {t.experience.roles[entry.role] ?? entry.role}
+                </p>
+                <p className="t-muted mt-2.5 text-sm" style={{ maxWidth: "52ch" }}>
+                  {t.experience.bodies[entry.org] ?? entry.body}
+                </p>
               </div>
             </div>
-          </a>
-          <a href="https://rigacup.lv/winter/" target="_blank">
-            <div className="p-6 shadow-xl shadow-indigo-300 bg-zinc-100 text-zinc-800 rounded-xl hover:scale-105 ease-in duration-300">
-              <div className="grid grid-cols-2 gap-4 justify-center items-center">
-                <div className="m-auto">
-                  <Image src={RigaCup} width="180" height="64" alt="/"  decoding="async" loading="lazy"/>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <h3>Riga Cup</h3>
-                  <p className=" text-gray-500">Volunteer</p>
-                  <p className=" text-gray-500">2016 - Now</p>
-                </div>
-              </div>
-            </div>
-          </a>
-          <a href="https://www.rema1000.dk/" target="_blank">
-            <div className="p-6 shadow-xl shadow-indigo-300  bg-zinc-100 text-zinc-800 rounded-xl hover:scale-105 ease-in duration-300">
-              <div className="grid grid-cols-2 gap-4 justify-center items-center">
-                <div className="m-auto">
-                  <Image src={Rema} width="120" height="64" alt="/"  decoding="async" loading="lazy"/>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <h3>REMA 1000</h3>
-                  <p className=" text-gray-500">Student Job</p>
-                  <p className=" text-gray-500">2022 - 2024</p>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-        <h2 className="py-4 text-right mt-4 cursor-default">Studies</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <a href="https://www.via.dk/" target="_blank">
-            <div className="p-6 shadow-xl shadow-indigo-300  bg-zinc-100 text-zinc-800 rounded-xl hover:scale-105 ease-in duration-300">
-              <div className="grid grid-cols-2 gap-4 justify-center items-center">
-                <div className="m-auto">
-                  <Image src={Via} width="200" height="64" alt="/" decoding="async" loading="lazy" />
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <h3>VIA University</h3>
-                  <p className=" text-gray-500">Software Engineer</p>
-                  <p className=" text-gray-500">2022 - 2025</p>
-                </div>
-              </div>
-            </div>
-          </a>
-          <a href="https://www.ucl.dk/" target="_blank">
-            <div className="p-6 shadow-xl shadow-indigo-300  bg-zinc-100 text-zinc-800 rounded-xl hover:scale-105 ease-in duration-300">
-              <div className="grid grid-cols-2 gap-4 justify-center items-center">
-                <div className="m-auto">
-                  <Image src={ucl} width="200" height="64" alt="/" decoding="async" loading="lazy" />
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <h3>UCL Odense</h3>
-                  <p className=" text-gray-500">IT Technology</p>
-                  <p className=" text-gray-500">2021 - 2022</p>
-                </div>
-              </div>
-            </div>
-          </a>
-          <a href="https://www.rkv.lv/" target="_blank">
-            <div className="p-6 shadow-xl shadow-indigo-300  bg-zinc-100 text-zinc-800 rounded-xl hover:scale-105 ease-in duration-300">
-              <div className="grid grid-cols-2 gap-4 justify-center items-center">
-                <div className="m-auto">
-                  <Image src={rkv} width="130" height="64" alt="/" decoding="async" loading="lazy" />
-                </div>
-                <div className="flex flex-col items-center justify-center text-center">
-                  <h3>Riga Cultures Secondary School</h3>
-                  <p className=" text-gray-500">Childhood - 2021</p>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
+          </div>
+        ))}
       </div>
     </div>
+  );
+}
+
+const Experience = () => {
+  const { t } = useLocale();
+
+  return (
+    <Zone tone="gray" density="compact" id="experience" labelledBy="experience-title">
+      <SectionHeaderCompact
+        id="experience-title"
+        eyebrow={t.experience.eyebrow}
+        title={t.experience.title}
+      />
+
+      <div className="shell mt-14 grid gap-x-16 gap-y-12 lg:grid-cols-2">
+        <Timeline
+          label={t.experience.experienceLabel}
+          entries={experience}
+          startIndex={0}
+        />
+        <Timeline
+          label={t.experience.educationLabel}
+          entries={education}
+          startIndex={3}
+        />
+      </div>
+    </Zone>
   );
 };
 

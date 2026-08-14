@@ -1,18 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.js",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      dropShadow: {
-        'xl':'0 15px 35px rgba(0, 255, 255, 0.5)',
-        '2xl':'0 15px 65px rgba(0, 255, 255, 1)'
-      }
+      fontFamily: {
+        display: ["var(--display-font)"],
+        body: ["var(--body-font)"],
+        mono: ["var(--mono-font)"],
+      },
+      colors: {
+        ink: "var(--c-black)",
+        paper: "var(--c-white)",
+        accent: "var(--accent)",
+      },
+      transitionTimingFunction: {
+        editorial: "cubic-bezier(0.25, 0.74, 0.22, 0.99)",
+      },
     },
   },
-  plugins: [require('flowbite/plugin')],
-
-  
-}
+  plugins: [],
+};

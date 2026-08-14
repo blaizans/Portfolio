@@ -1,54 +1,86 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import AboutImg from "/public/portfolio.jpg";
+import { Zone, Eyebrow } from "@/components/ui/Zone";
+import { Counter } from "@/components/ui/Counter";
+import { profile, stats } from "@/data/site";
+import { useLocale } from "@/i18n/LocaleContext";
 
 const About = () => {
+  const { t } = useLocale();
+
   return (
-    <div className="w-full md:h-screen p-2 flex items-center py-8">
-      
-      <div className="max-w-[1240px] m-auto md:grid grid-cols-3 gap-8">
-        <div className="col-span-2">
-          <p className="uppercase text-xl tracking-widest text-cyan-300 cursor-default">
-            About
-          </p>
-          <h2 className="py-4 drop-shadow-xl hover:drop-shadow-2xl transition-all duration-300 cursor-default">
-            Let Me Introduce Myself
+    <Zone tone="dark" id="about" labelledBy="about-title">
+      <div className="shell registration grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <div>
+          <div className="reveal">
+            <Eyebrow>{t.about.eyebrow}</Eyebrow>
+          </div>
+          <h2 id="about-title" className="t-display mt-5 max-w-[14ch]">
+            <span className="reveal-mask">
+              <span>{t.about.title}</span>
+            </span>
           </h2>
-          <p className="py-2 text-indigo-300 cursor-default text-justify">
-            My journey into software development started with browser's "Inspect element" feature before showing parents my school grades. Something catched my attention then and now I 
-            pursue my passion for coding and haven't looked back since.{" "}
-          </p>
-          <p className="py-2 text-indigo-300 cursor-default text-justify">
-            One thing that football taught me is the importance of discipline
-            and a healthy lifestyle. These values have carried over into my work
-            as a developer and have helped me to remain focused and committed to
-            my projects. I take pride in creating high-quality work that improves my knowledge.{" "}
-          </p>
-          <p className="py-2 text-indigo-300 cursor-default text-justify">
-            As you navigate through my portfolio, you will see that I have a
-            diverse range of skills and experience, from web development to
-            backend development. My goal is to Never Stop Developing!{" "}
-          </p>
-          <p className="py-2 text-indigo-300 cursor-default text-justify">
-            Thank you for taking the time to learn about me and my work. I look
-            forward to the opportunity to work with you and help bring your
-            ideas to life!{" "}
-          </p>
-          <Link href="/#projects">
-            <p className="py-2 text-cyan-300 underline cursor-pointer">
-              Check out some of my latest projects.
-            </p>
-          </Link>
+
+          {/* One personal photo, tied directly to the football sentence in
+              the bio column — a small, quiet aside, not a portrait hero. */}
+          <figure className="about-photo reveal mt-10" style={{ "--i": 1, maxWidth: "22rem" }}>
+            <Image
+              src="/bruno-football.png"
+              alt={t.about.photoAlt}
+              width={880}
+              height={1100}
+              className="w-full"
+              style={{ aspectRatio: "4 / 5", objectFit: "cover" }}
+              sizes="(max-width: 1023px) 60vw, 22rem"
+              loading="lazy"
+            />
+          </figure>
         </div>
-        <div className="w-full h-auto m-auto shadow-xl shadow-indigo-300 rounded-xl flex items-center justify-center p-4 hover:scale-105 ease-in duration-300">
-          <Image src={AboutImg} className="rounded-xl" alt="/" />
-        </div>
-        <div id="experience" className="">
-          <button className="bg-[#344e64]"></button>
+
+        <div>
+          <p className="reveal text-lg">{t.about.intro}</p>
+
+          <p className="reveal t-muted mt-6" style={{ "--i": 1 }}>
+            {t.about.p2}
+          </p>
+
+          <p className="reveal t-muted mt-6" style={{ "--i": 2 }}>
+            {t.about.p3}
+          </p>
+
+          <div className="reveal mt-10 flex flex-wrap gap-4" style={{ "--i": 3 }}>
+            <a href="#contact" className="btn">
+              <span>{t.about.cta}</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div className="shell mt-24">
+        <dl className="hairline grid grid-cols-2 gap-8 pt-10 md:grid-cols-4">
+          {stats.map((stat, index) => (
+            <div key={stat.label} className="reveal" style={{ "--i": index }}>
+              <dt className="sr-only">{t.about.stats[index]}</dt>
+              <dd>
+                <span
+                  className="block"
+                  style={{
+                    fontFamily: "var(--display-font)",
+                    fontSize: "clamp(2.5rem, 1.5rem + 3vw, 4.5rem)",
+                    lineHeight: 1,
+                    letterSpacing: "-0.04em",
+                  }}
+                >
+                  <Counter value={stat.value} suffix={stat.suffix} />
+                </span>
+                <span className="mono t-muted mt-3 block">{t.about.stats[index]}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </Zone>
   );
 };
 
