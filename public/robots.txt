@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://blaizans.vercel.app/sitemap.xml
