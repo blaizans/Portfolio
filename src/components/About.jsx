@@ -9,7 +9,7 @@ const About = () => {
   const { t } = useLocale();
 
   return (
-    <Zone tone="dark" id="about" labelledBy="about-title">
+    <Zone tone="dark" scene id="about" labelledBy="about-title">
       <div className="shell registration grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <div>
           <div className="reveal">
@@ -23,7 +23,10 @@ const About = () => {
 
           {/* One personal photo, tied directly to the football sentence in
               the bio column — a small, quiet aside, not a portrait hero. */}
-          <figure className="about-photo reveal mt-10" style={{ "--i": 1, maxWidth: "22rem" }}>
+          <figure
+            className="about-photo reveal"
+            style={{ "--i": 1, maxWidth: "min(22rem, 30svh)", marginTop: "clamp(1rem, 3.5svh, 2.5rem)" }}
+          >
             <Image
               src="/bruno-football.png"
               alt={t.about.photoAlt}
@@ -40,25 +43,30 @@ const About = () => {
         <div>
           <p className="reveal text-lg">{t.about.intro}</p>
 
-          <p className="reveal t-muted mt-6" style={{ "--i": 1 }}>
+          <p className="reveal t-muted" style={{ "--i": 1, marginTop: "clamp(0.75rem, 2svh, 1.5rem)" }}>
             {t.about.p2}
           </p>
 
-          <p className="reveal t-muted mt-6" style={{ "--i": 2 }}>
+          <p className="reveal t-muted" style={{ "--i": 2, marginTop: "clamp(0.75rem, 2svh, 1.5rem)" }}>
             {t.about.p3}
           </p>
 
-          <div className="reveal mt-10 flex flex-wrap gap-4" style={{ "--i": 3 }}>
+          <div
+            className="reveal flex flex-wrap gap-4"
+            style={{ "--i": 3, marginTop: "clamp(1rem, 3.5svh, 2.5rem)" }}
+          >
             <a href="#contact" className="btn">
               <span>{t.about.cta}</span>
-              <span aria-hidden="true">→</span>
             </a>
           </div>
         </div>
       </div>
 
-      <div className="shell mt-24">
-        <dl className="hairline grid grid-cols-2 gap-8 pt-10 md:grid-cols-4">
+      <div className="shell" style={{ marginTop: "clamp(1.5rem, 6svh, 4rem)" }}>
+        <dl
+          className="hairline grid grid-cols-2 gap-8 md:grid-cols-4"
+          style={{ paddingTop: "clamp(1rem, 3svh, 2.5rem)" }}
+        >
           {stats.map((stat, index) => (
             <div key={stat.label} className="reveal" style={{ "--i": index }}>
               <dt className="sr-only">{t.about.stats[index]}</dt>

@@ -8,8 +8,13 @@ import React from "react";
  * importance — the payoff sections breathe, the reference sections compress —
  * so spacing carries hierarchy instead of being one page-wide constant.
  *
+ * `scene` makes the band fill one screen with its content centred. `last`
+ * shortens it by the footer's height so the final scene and the footer share
+ * one screen. A band that holds several scenes of its own (Work) uses density
+ * "flush" and no `scene`.
+ *
  * @param {"dark"|"light"|"gray"} tone
- * @param {"compact"|"standard"|"expansive"} density
+ * @param {"compact"|"standard"|"expansive"|"flush"} density
  */
 export function Zone({
   tone = "dark",
@@ -19,6 +24,8 @@ export function Zone({
   className = "",
   children,
   as = "section",
+  scene = false,
+  last = false,
 }) {
   const Tag = as;
   const densityClass = density === "standard" ? "" : `zone-${density}`;
@@ -27,7 +34,7 @@ export function Zone({
     <Tag
       id={id}
       aria-labelledby={labelledBy}
-      className={`zone ui-${tone} ${densityClass} ${className}`}
+      className={`zone ui-${tone} ${densityClass} ${scene ? "scene" : ""} ${last ? "scene-last" : ""} ${className}`}
     >
       {children}
     </Tag>

@@ -1,7 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 @import "./fonts.css";
+
+/* Tailwind 4 theme, carried over from the old tailwind.config.js. `inline`
+   keeps the utilities pointing at the :root tokens below instead of copies. */
+@theme inline {
+  --font-display: var(--display-font);
+  --font-body: var(--body-font);
+  --font-mono: var(--mono-font);
+  --color-ink: var(--c-black);
+  --color-paper: var(--c-white);
+  --color-accent: var(--accent);
+  --ease-editorial: cubic-bezier(0.25, 0.74, 0.22, 0.99);
+}
 
 /* ============================================================
    TOKENS
@@ -18,6 +28,12 @@
   --accent-rgb: 27, 50, 255;
   --accent-light: #828eff;
   --accent-light-rgb: 130, 142, 255;
+
+  /* Hero sky only: a deep night top and one warm "first light" colour used
+     for the rising sun, the inner orbits and the availability dot. */
+  --sky-top: #0b0d1f;
+  --hope: #ffc27a;
+  --hope-rgb: 255, 194, 122;
 
   /* Self-hosted via fonts.css — @font-face declarations below, no runtime
      request to Google Fonts. Russian body text falls through to the
@@ -48,6 +64,7 @@
   --dur-slow: 900ms;
 
   --nav-h: 72px;
+  --footer-h: 4.75rem;
 
   /* default zone = dark */
   --t-bg: var(--c-black);
@@ -121,6 +138,34 @@
   padding-bottom: var(--zone-y-expansive);
 }
 
+.zone-flush {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* ============================================================
+   SCENES — every band of the page is one screen.
+   A scene fills the viewport, centres its content, and clears the fixed
+   header with its own padding, so wherever a scroll lands the view is
+   composed: a heading, the thing it introduces, and nothing else peeking
+   in. Spacing inside scenes is measured in screen height (svh) so the same
+   scene recomposes on a short laptop, a tall phone and a tablet. A scene
+   whose content is taller than the screen simply grows and scrolls.
+   ============================================================ */
+.scene {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: calc(var(--nav-h) + clamp(0.75rem, 3svh, 2.25rem));
+  padding-bottom: clamp(1rem, 3.5svh, 2.75rem);
+}
+
+/* The last scene shares its screen with the footer. */
+.scene-last {
+  min-height: calc(100svh - var(--footer-h));
+}
+
 .shell {
   width: 100%;
   max-width: var(--maxw);
@@ -138,8 +183,8 @@
 
   html {
     scroll-behavior: smooth;
-    /* offset for the fixed header when jumping to #anchors */
-    scroll-padding-top: var(--nav-h);
+    /* Scenes clear the fixed header with their own padding. */
+    scroll-padding-top: 0;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -224,7 +269,7 @@
 }
 
 /* ============================================================
-   HERO — poster lockup over the flow-field canvas
+   HERO — poster lockup over the ring-field canvas
    ============================================================ */
 .poster {
   font-family: var(--poster-font);
@@ -276,15 +321,14 @@ html:lang(ru) .poster-face {
   -webkit-text-stroke-color: var(--accent-light);
 }
 
-/* Two stacked lockup lines. The available width is the viewport minus the
-   gutters and the index rail, so each word is sized against that rather than
-   the raw viewport. "Bruno" renders 2.358x its font-size in Anton and
-   "Laizans" 2.857x (measured), which is what keeps the two lines optically
-   flush despite their different letter counts. */
+/* Name lockup, centred. Below md it is two stacked lines, sized so both
+   words are optically flush ("Bruno" renders 2.358x its font-size in Anton and
+   "Laizans" 2.857x, measured). From md up it is one line: the same font size
+   for both words, which is shorter and lets the page below carry the offer. */
 .poster-lockup {
-  --rail: 3.5rem; /* index rail + gap */
-  --poster-avail: calc(100vw - 2 * min(4vw, 80px) - var(--rail));
-  --poster-size: min(calc(var(--poster-avail) / 2.857), 27vh);
+  --poster-avail: calc(100vw - 2 * var(--gutter));
+  --poster-size: min(calc(var(--poster-avail) * 0.95 / 2.857), 14.5vh);
+  text-align: center;
 }
 
 .poster-line {
@@ -298,21 +342,20 @@ html:lang(ru) .poster-face {
   font-size: var(--poster-size);
 }
 
-/* Second line steps into the grid so the lockup reads as a composition
-   rather than a left-aligned stack. */
-.poster-indent {
-  margin-left: 0.06em;
-}
-
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .poster-lockup {
-    --rail: 5rem;
-    /* The indented line starts 8% in, so it gets 92% of the track to fill. */
-    --poster-size: min(calc(var(--poster-avail) * 0.92 / 2.857), 27vh);
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.22em;
+    /* Whole line is about 5.5x the font size. */
+    --poster-size: min(calc(min(100vw - 2 * var(--gutter), 1200px) * 0.72 / 5.5), 16vh);
+    font-size: var(--poster-size);
   }
 
-  .poster-indent {
-    margin-left: 8%;
+  .poster-lockup .poster-line,
+  .poster-lockup .poster-line.poster-outline {
+    font-size: var(--poster-size);
   }
 }
 
@@ -360,6 +403,49 @@ html:lang(ru) .poster-face {
 .is-in .reveal-mask > *,
 .reveal-mask.is-in > * {
   transform: none;
+}
+
+/* ============================================================
+   ENTER — CSS-only entrance for the hero.
+   The first screen must never depend on JavaScript or an observer to
+   become visible, so it animates on load and always ends fully shown.
+   Reduced motion collapses the duration, so nothing stays hidden.
+   ============================================================ */
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes enter-mask {
+  from {
+    transform: translate3d(0, 105%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.enter {
+  animation: enter-up var(--dur-slow) var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+
+.enter-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.08em;
+  margin-block: -0.08em;
+}
+
+.enter-mask > * {
+  animation: enter-mask var(--dur-slow) var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
 }
 
 /* ============================================================
@@ -412,7 +498,13 @@ html:lang(ru) .poster-face {
   overflow: hidden;
   transition:
     color var(--dur-mid) var(--ease),
-    border-color var(--dur-mid) var(--ease);
+    border-color var(--dur-mid) var(--ease),
+    transform 160ms var(--ease);
+}
+
+/* Press feedback: the control confirms it heard the click. */
+.btn:active {
+  transform: scale(0.97);
 }
 
 .btn::before {
@@ -663,8 +755,6 @@ html:lang(ru) .poster-face {
    ============================================================ */
 .specimen {
   position: relative;
-  border-top: 1px solid var(--t-line);
-  padding-top: clamp(1.75rem, 1rem + 2.5vw, 3.25rem);
 }
 
 /* Index number in the hero's rail idiom: mono, accent, tabular. */
@@ -682,11 +772,14 @@ html:lang(ru) .poster-face {
   text-transform: uppercase;
   line-height: 0.9;
   letter-spacing: -0.015em;
-  font-size: clamp(2.6rem, 1rem + 6.4vw, 7rem);
+  /* Sized from the screen's height as well as its width, so it stays in
+     proportion on a short laptop. */
+  font-size: min(clamp(2.25rem, 9svh, 6.5rem), calc(1rem + 6.4vw));
   text-wrap: balance;
 }
 
-/* The plate: the screenshot at full width, in colour, no crop games. */
+/* The plate: the photo whole, at its real ratio, in colour, filling its
+   column (about 40% of the width on a desktop). Never cropped. */
 .specimen-plate {
   display: block;
   position: relative;
@@ -696,9 +789,28 @@ html:lang(ru) .poster-face {
 
 .specimen-plate img {
   display: block;
+  transition: transform var(--dur-slow) var(--ease);
+}
+
+.specimen-photo {
   width: 100%;
   height: auto;
-  transition: transform var(--dur-slow) var(--ease);
+}
+
+/* A placeholder plate (work with no screenshot yet): roughly the footprint of
+   a photo, so the tour keeps its rhythm. */
+.scene .specimen-placeholder {
+  aspect-ratio: auto;
+  height: clamp(14rem, 40svh, 26rem);
+}
+
+/* Three shots of different ratios share one 16:9 mat, each shown whole. */
+.specimen-thumb {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: var(--t-line);
 }
 
 .specimen-plate:hover img,
@@ -765,6 +877,30 @@ html:lang(ru) .poster-face {
   transform: none;
 }
 
+/* Photos keep their real ratio, so nothing is cropped. The exception is a very
+   wide capture on a phone: at full width it is ~150px tall and its headline
+   unreadable, so below `sm` it becomes a taller, centred crop of the middle of
+   the frame, where the headline sits. */
+@media (max-width: 639px) {
+  .plate-sized[data-wide] {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+}
+
+/* A plate with nowhere to send the click (no public URL) must not look
+   clickable: no zoom, no accent wipe. Declared after the hover rules above
+   so it wins at equal specificity. */
+.specimen-plate-static::after {
+  display: none;
+}
+
+.specimen-plate-static:hover img {
+  transform: none;
+}
+
 /* About's one personal photo: same hairline-document treatment as the work
    proof photo, so the two read as one family rather than two conventions. */
 .about-photo img {
@@ -801,7 +937,7 @@ html:lang(ru) .poster-face {
 
 .spec-rail > div {
   border-bottom: 1px solid var(--t-line);
-  padding-block: 0.85rem;
+  padding-block: clamp(0.45rem, 1.3svh, 0.85rem);
 }
 
 /* ============================================================
@@ -817,7 +953,8 @@ html:lang(ru) .poster-face {
 
 .timeline-entry {
   position: relative;
-  padding-block: 0.9rem;
+  /* Grows with the screen's height so a reference scene fills its screen. */
+  padding-block: clamp(0.9rem, 2.8svh, 1.75rem);
 }
 
 /* Node on the spine. Hollow by default, fills with accent on hover/focus.
@@ -866,7 +1003,7 @@ html:lang(ru) .poster-face {
 .inventory-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.3rem 1.25rem;
+  gap: clamp(0.3rem, 0.9svh, 0.7rem) 1.25rem;
 }
 
 /* Groups with few entries stay a single column rather than half-empty. */

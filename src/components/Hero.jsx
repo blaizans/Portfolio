@@ -1,18 +1,34 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import { profile } from "@/data/site";
+import { profile, heroProof } from "@/data/site";
 import { useLocale } from "@/i18n/LocaleContext";
 
 // Canvas is client-only and non-critical: keep it out of the initial bundle.
-const GridField = dynamic(() => import("@/components/GridField"), { ssr: false });
+const CosmosField = dynamic(() => import("@/components/CosmosField"), { ssr: false });
+
+const Check = () => (
+  <svg
+    aria-hidden="true"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="square"
+  >
+    <path d="M2.5 8.5l3.5 3.5 7.5-8" />
+  </svg>
+);
 
 /**
- * Editorial masthead, built on an explicit 12-column grid.
+ * A title over a planet at first light. Above the limb: role, name, one plain
+ * sentence, availability and the call to action. Below it, on the planet's
+ * dark surface where nothing glows behind the text: what you get, in three
+ * columns, and the real work it rests on.
  *
- * Deliberately not the conventional hero stack (centred headline, subhead,
- * two buttons, even stat row). Instead: an index rail down the left, the name
- * broken across two offset lines, a rotated availability flag, and a bottom
- * ledger whose columns are intentionally unequal.
+ * The entrance is CSS only (`.enter`), so the first screen can never be left
+ * hidden by a script that has not run.
  */
 const Hero = () => {
   const { t } = useLocale();
@@ -22,143 +38,167 @@ const Hero = () => {
     <section
       id="top"
       aria-labelledby="hero-title"
-      className="ui-dark noise relative min-h-[100svh] overflow-hidden"
+      className="ui-dark noise relative min-h-svh overflow-hidden"
+      // Deep night at the top; the planet in the canvas supplies the light.
+      style={{
+        backgroundImage: "linear-gradient(180deg, var(--sky-top) 0%, #050507 70%)",
+      }}
     >
       {/* Motion layer */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
-        <GridField />
+        <CosmosField />
       </div>
 
+      {/* Darkens only the top, so the nav stays legible over the stars */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[1]"
+        className="pointer-events-none absolute inset-x-0 top-0 z-1 h-40"
         style={{
-          background:
-            "linear-gradient(180deg, rgba(19,19,19,0.55) 0%, rgba(19,19,19,0.12) 42%, rgba(19,19,19,0.9) 100%)",
+          background: "linear-gradient(180deg, rgba(11,13,31,0.7) 0%, rgba(11,13,31,0) 100%)",
         }}
       />
 
-      {/* Hairline rules that expose the underlying grid, like print registration marks */}
       <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[1] hidden lg:block"
-        style={{ paddingInline: "var(--gutter)" }}
-      >
-        <div className="relative mx-auto h-full" style={{ maxWidth: "var(--maxw)" }}>
-          {["16.66%", "50%", "83.33%"].map((left) => (
-            <span
-              key={left}
-              className="absolute top-0 h-full"
-              style={{ left, width: "1px", background: "rgba(240,240,240,0.07)" }}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div
-        className="relative z-[2] mx-auto flex min-h-[100svh] flex-col"
+        className="relative z-2 mx-auto flex min-h-svh flex-col"
         style={{
           maxWidth: "var(--maxw)",
           paddingInline: "var(--gutter)",
-          paddingTop: "calc(var(--nav-h) + clamp(1rem, 3vh, 2.5rem))",
-          paddingBottom: "clamp(1.25rem, 3vh, 2.5rem)",
+          paddingTop: "calc(var(--nav-h) + clamp(0.5rem, 2vh, 1.5rem))",
+          paddingBottom: "clamp(1rem, 3svh, 3rem)",
         }}
       >
-        {/* ── Masthead: index rail + offset lockup ─────────────────── */}
-        <div className="flex flex-1 flex-col justify-center">
-          <div className="flex items-start gap-5 sm:gap-8">
-            {/* Left rail: issue-number styling, vertical on desktop */}
-            <div className="reveal shrink-0 pt-2">
-              <span
-                className="mono block"
-                style={{ color: "var(--accent-light)", lineHeight: 1.2 }}
-              >
-                01
-              </span>
-              <span
-                aria-hidden="true"
-                className="mt-3 block"
-                style={{ width: "1px", height: "clamp(40px, 9vh, 110px)", background: "var(--t-line-strong)" }}
-              />
-            </div>
+        {/* ── Above the limb: who, and what I do ───────────────────── */}
+        <div className="flex flex-1 flex-col items-center justify-center py-2 text-center">
+          <p
+            className="enter mono"
+            style={{ "--i": 0, color: "var(--accent-light)", marginBottom: "clamp(0.75rem, 2svh, 1.25rem)" }}
+          >
+            {t.hero.role}, {t.hero.location}
+          </p>
 
-            <div className="min-w-0 flex-1">
-              <h1 id="hero-title" className="poster poster-lockup">
-                <span className="reveal-mask block">
-                  <span className="poster-line">{first}</span>
-                </span>
-                {/* Second line is indented into the grid, not left-aligned */}
-                <span className="reveal-mask block" style={{ "--i": 1 }}>
-                  <span className="poster-line poster-outline poster-indent">{last}</span>
-                </span>
-              </h1>
-            </div>
-          </div>
+          <h1 id="hero-title" className="poster poster-lockup">
+            <span className="enter-mask">
+              <span className="poster-line">{first}</span>
+            </span>
+            <span className="enter-mask" style={{ "--i": 1 }}>
+              <span className="poster-line poster-outline">{last}</span>
+            </span>
+            <span className="sr-only">, {t.seo.h1Extra}</span>
+          </h1>
 
-          {/* Pitch sits in the right two-thirds only, with the role as a runner */}
-          <div className="mt-10 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-            <p
-              className="reveal mono lg:col-span-3"
-              style={{ "--i": 2, color: "var(--accent-light)" }}
-            >
-              {t.hero.role}
-              <span className="t-muted block">{t.hero.location}</span>
-            </p>
+          <p
+            className="enter"
+            style={{
+              "--i": 2,
+              marginTop: "clamp(1rem, 3svh, 1.75rem)",
+              fontFamily: "var(--display-font)",
+              fontSize: "clamp(1.4rem, 1rem + 1.3vw, 2.15rem)",
+              fontWeight: 500,
+              lineHeight: 1.2,
+              letterSpacing: "-0.02em",
+              maxWidth: "40ch",
+              textWrap: "balance",
+            }}
+          >
+            {t.hero.statement}
+          </p>
 
-            <p
-              className="reveal text-lg lg:col-span-6 lg:col-start-5"
-              style={{ "--i": 3, maxWidth: "46ch" }}
-            >
-              {t.hero.pitch}
-            </p>
+          <p
+            className="enter mono flex items-baseline justify-center gap-3"
+            style={{ "--i": 3, color: "var(--accent-light)", marginTop: "clamp(0.75rem, 2svh, 1.25rem)" }}
+          >
+            <span
+              aria-hidden="true"
+              className="inline-block h-2 w-2 shrink-0 -translate-y-px rounded-full"
+              style={{ background: "var(--hope)" }}
+            />
+            {t.hero.hiringNote}
+          </p>
 
-            {/* CTA stack: one solid, one plain text link. Not two matching pills. */}
-            <div
-              className="reveal flex flex-col items-start gap-4 lg:col-span-2 lg:col-start-11"
-              style={{ "--i": 4 }}
-            >
-              <a href="#contact" className="btn w-full justify-center">
-                <span>{t.hero.hireMe}</span>
-                <span aria-hidden="true">→</span>
-              </a>
-              <a href="#work" className="link mono">
-                {t.hero.seeWork} ↓
-              </a>
-            </div>
+          {/* One solid action and one plain link, not two matching pills */}
+          <div
+            data-hero-avoid
+            className="enter flex flex-wrap items-center justify-center gap-x-8 gap-y-4 sm:w-fit"
+            style={{ "--i": 4, marginTop: "clamp(1rem, 3svh, 1.75rem)" }}
+          >
+            <a href="#contact" className="btn w-full justify-center sm:w-auto">
+              <span>{t.hero.hireMe}</span>
+            </a>
+            <a href="#work" className="link mono">
+              {t.hero.seeWork}
+            </a>
           </div>
         </div>
 
-        {/* ── Ledger: deliberately uneven columns, mono, rule above ── */}
-        <dl
-          className="reveal grid gap-x-8 gap-y-5 border-t pt-6 sm:grid-cols-2 lg:grid-cols-[auto_auto_auto_1fr]"
-          style={{ borderColor: "var(--t-line)" }}
+        {/* ── On the planet: what you get, and the work behind it ───── */}
+        <aside
+          aria-labelledby="hero-offer-title"
+          className="mx-auto w-full"
+          style={{ maxWidth: "1100px", marginTop: "min(clamp(6rem, 9.5vw, 9rem), 11svh)" }}
         >
-          {[
-            { term: t.hero.proof.nowAt, value: t.hero.proof.nowAtValue },
-            { term: t.hero.proof.experience, value: t.hero.proof.experienceValue },
-            { term: t.hero.proof.focus, value: t.hero.proof.focusValue },
-          ].map((item) => (
-            <div key={item.term} className="flex flex-wrap items-baseline gap-x-3">
-              <dt className="mono t-muted">{item.term}</dt>
-              <dd className="mono" style={{ color: "var(--t-text)" }}>
-                {item.value}
-              </dd>
-            </div>
-          ))}
+          <h2
+            id="hero-offer-title"
+            className="enter mono t-muted text-center"
+            style={{ "--i": 5, fontWeight: 400, letterSpacing: "0.1em", marginBottom: "clamp(0.75rem, 2.4svh, 1.5rem)" }}
+          >
+            {t.hero.offer.label}
+          </h2>
 
-          {/* Availability pushed hard right, flagged with a live dot */}
-          <div className="flex items-baseline gap-3 lg:justify-self-end">
-            <span
-              aria-hidden="true"
-              className="inline-block h-2 w-2 shrink-0 translate-y-[-1px] rounded-full"
-              style={{ background: "var(--accent-light)" }}
-            />
-            <dt className="sr-only">{t.hero.availability}</dt>
-            <dd className="mono" style={{ color: "var(--accent-light)" }}>
-              {t.hero.hiringNote}
-            </dd>
+          <ul className="grid gap-x-12 gap-y-8 md:grid-cols-3">
+            {t.hero.offer.items.map((item, index) => (
+              <li
+                key={item.title}
+                className="enter grid grid-cols-[1.75rem_minmax(0,1fr)] gap-x-3"
+                style={{ "--i": 6 + index }}
+              >
+                <span className="pt-1" style={{ color: "var(--hope)" }}>
+                  <Check />
+                </span>
+                <div>
+                  <h3
+                    style={{
+                      fontSize: "clamp(1.15rem, 1rem + 0.5vw, 1.5rem)",
+                      letterSpacing: "-0.02em",
+                      lineHeight: 1.15,
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p className="t-muted mt-2" style={{ fontSize: "0.9375rem", lineHeight: 1.5 }}>
+                    {item.body}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div
+            className="enter flex flex-wrap items-baseline justify-center gap-x-10 gap-y-3"
+            style={{ "--i": 9, marginTop: "clamp(1.25rem, 4svh, 2.5rem)" }}
+          >
+            <p className="mono t-muted">{t.hero.offer.proofLabel}</p>
+            <ul className="flex flex-wrap justify-center gap-x-10 gap-y-3">
+              {heroProof.map((item) => (
+                <li key={item.name}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="link"
+                    style={{
+                      fontFamily: "var(--display-font)",
+                      fontSize: "1.25rem",
+                      fontWeight: 600,
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-        </dl>
+        </aside>
       </div>
     </section>
   );

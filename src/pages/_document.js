@@ -7,7 +7,8 @@ import { Html, Head, Main, NextScript } from "next/document";
 // on demand via the ordinary @font-face + font-display: swap path.
 export default function Document() {
   return (
-    <Html lang="en">
+    // <Html> fills in lang from the locale of the URL being rendered.
+    <Html>
       <Head>
         <link
           rel="preload"

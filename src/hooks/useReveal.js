@@ -26,17 +26,35 @@ export function useReveal() {
           // `threshold: 0.1` alone never fires for elements taller than the
           // viewport, so also accept anything that has crossed the trigger line.
           const isTallAndEntered =
-            entry.boundingClientRect.top < window.innerHeight * 0.88;
+            entry.boundingClientRect.top < window.innerHeight * 0.98;
           if (!entry.isIntersecting && !isTallAndEntered) return;
           entry.target.classList.add("is-in");
           observer.unobserve(entry.target);
         });
       },
-      { rootMargin: "0px 0px -12% 0px", threshold: [0, 0.1] },
+      // Scenes are composed to fit one screen, so nothing in the bottom strip may
+      // wait for another scroll: reveal as soon as an element is on screen.
+      { rootMargin: "0px 0px -2% 0px", threshold: [0, 0.1] },
     );
 
     targets.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+
+    // The -12% root margin means anything in the bottom strip of the first
+    // screen would stay hidden until the reader scrolls. Reveal whatever is
+    // already on screen at load.
+    const frame = requestAnimationFrame(() => {
+      targets.forEach((el) => {
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add("is-in");
+          observer.unobserve(el);
+        }
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
   }, []);
 }
 

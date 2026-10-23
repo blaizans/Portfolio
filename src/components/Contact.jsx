@@ -21,7 +21,7 @@ const Contact = () => {
   );
 
   return (
-    <Zone tone="light" density="expansive" id="contact" labelledBy="contact-title">
+    <Zone tone="light" scene last id="contact" labelledBy="contact-title">
       <div className="shell registration">
         {/* Bespoke opening: the section label sits on the closing rule with the
             response time, so the header itself carries the one fact that
@@ -36,7 +36,7 @@ const Contact = () => {
           </span>
         </div>
 
-        <h2 id="contact-title" className="t-hero mt-12 max-w-[13ch]">
+        <h2 id="contact-title" className="t-hero max-w-[13ch]" style={{ marginTop: "clamp(1.25rem, 5svh, 3rem)" }}>
           <span className="reveal-mask">
             <span>{t.contact.titleLine1}</span>
           </span>
@@ -45,12 +45,15 @@ const Contact = () => {
           </span>
         </h2>
 
-        <p className="reveal measure t-muted mt-8 text-lg" style={{ "--i": 2 }}>
+        <p
+          className="reveal measure t-muted text-lg"
+          style={{ "--i": 2, marginTop: "clamp(0.9rem, 3svh, 2rem)" }}
+        >
           {t.contact.lead}
         </p>
 
         {/* The single action. Largest non-hero type on the page. */}
-        <div className="reveal mt-16" style={{ "--i": 3 }}>
+        <div className="reveal" style={{ "--i": 3, marginTop: "clamp(1.25rem, 5svh, 4rem)" }}>
           <a
             href={`mailto:${profile.email}`}
             className="link inline-block max-w-full"
@@ -70,7 +73,10 @@ const Contact = () => {
         </div>
 
         {/* Everything after the action stays quiet. */}
-        <ul className="hairline mt-20 flex flex-wrap gap-x-10 gap-y-3 pt-6">
+        <ul
+          className="hairline flex flex-wrap gap-x-10 gap-y-3 pt-6"
+          style={{ marginTop: "clamp(1.5rem, 6svh, 5rem)" }}
+        >
           {contactSocials.map((social, index) => (
             <li key={social.label} className="reveal" style={{ "--i": index }}>
               <a

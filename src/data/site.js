@@ -24,6 +24,16 @@ export const profile = {
   ],
 };
 
+/**
+ * The hero's "Real work" row: named places and products a reader can check.
+ * Proper nouns, so they are not translated.
+ */
+export const heroProof = [
+  { name: "Systematic", href: "https://systematic.com/da-dk/" },
+  { name: "Riga Cup", href: "https://rigacup.lv/winter" },
+  { name: "Teamwear Webshop", href: "https://teamsport-dk.vercel.app" },
+];
+
 export const stats = [
   { value: 4, suffix: "+", label: "Years writing code" },
   { value: 20, suffix: "+", label: "Technologies used" },
@@ -67,13 +77,31 @@ export const capabilities = [
 /** Shipped products: real users, real traffic. Given full visual weight. */
 export const projects = [
   {
-    title: "Sport Teamline",
+    // A plain descriptive name, kept in one place on purpose: the same string
+    // keys the `bodies`, `plateAlts` and `offers` entries in locales.js, so
+    // renaming the product means changing this field and those three keys.
+    //
+    // Built and run as a real football teamwear shop, now offered as a
+    // ready-made storefront for new businesses. The reference build is live,
+    // so the plate links to it. `offer: true` makes Specimen render the "what
+    // is included" block and enquiry button.
+    title: "Teamwear Webshop",
     year: "2025",
     role: "Full-stack",
-    body: "Football teamwear and equipment store for clubs and players, with a multi-brand catalogue, multi-currency checkout and EU-wide delivery.",
-    stack: ["E-commerce", "Checkout", "Multi-currency", "i18n"],
-    image: "/sport-teamline.png",
-    links: [{ label: "Live site", href: "https://sport-teamline.dk" }],
+    body: "A multilingual, multi-currency webshop with a loyalty programme, a built-in finance dashboard and AI-written product pages. Built end to end and run as a real football teamwear business. Ready for a new business, with a new UI.",
+    stack: ["Next.js", "React", "Firebase", "Stripe", "Vercel", "Vitest", "Playwright"],
+    // Cropped to the storefront: the original capture included the previous
+    // brand's header bar, which is deliberately not shown.
+    image: "/storefront-reference.png",
+    imageSize: { width: 1831, height: 723 },
+    plateCaptionKey: "teamwearReference",
+    offer: true,
+    // The first link is also the plate's destination. The admin demo runs on
+    // sample data, so it is safe to show the owner side without real figures.
+    links: [
+      { label: "Live site", href: "https://teamsport-dk.vercel.app" },
+      { label: "Admin demo", href: "https://teamsport-dk.vercel.app/admin-demo" },
+    ],
   },
   {
     title: "Riga Cup",
@@ -82,6 +110,7 @@ export const projects = [
     body: "Tournament platform for one of the largest youth football tournaments in the Baltics. Schedules, results and team management serving thousands of visitors.",
     stack: ["TypeScript", "Next.js", "Firebase"],
     image: "/rc.jpg",
+    imageSize: { width: 1534, height: 893 },
     // Real proof of the volunteer role behind the platform, not another
     // product shot — see t.work.proofCaptions / proofAlt in locales.js.
     proofImage: { src: "/riga-cup-awards-2019.png", captionKey: "rigaCupAwards" },
@@ -97,9 +126,9 @@ export const projects = [
     // Three distinct surfaces, not crops of one shot — rendered as a 3-up
     // plate instead of the single 16:9 image the other specimens use.
     images: [
-      { src: "/pnta-dashboard.png", labelKey: "dashboard" },
-      { src: "/pnta-web.png", labelKey: "promoSite" },
-      { src: "/pnta-mobile.png", labelKey: "mobileApp" },
+      { src: "/pnta-dashboard.png", labelKey: "dashboard", width: 939, height: 527 },
+      { src: "/pnta-web.png", labelKey: "promoSite", width: 940, height: 449 },
+      { src: "/pnta-mobile.png", labelKey: "mobileApp", width: 940, height: 387 },
     ],
     links: [
       { label: "Mobile", href: "https://github.com/PNTAbach/PNTAapp" },
@@ -249,9 +278,10 @@ export const toolset = [
 ];
 
 export const navLinks = [
+  // Same order as the page.
   { key: "work", href: "#work" },
-  { key: "about", href: "#about" },
   { key: "experience", href: "#experience" },
   { key: "toolset", href: "#toolset" },
+  { key: "about", href: "#about" },
   { key: "contact", href: "#contact" },
 ];

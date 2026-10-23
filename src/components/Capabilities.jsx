@@ -11,20 +11,20 @@ const Capabilities = () => {
   const { t } = useLocale();
 
   return (
-    <Zone tone="light" density="compact" id="capabilities" labelledBy="capabilities-title">
+    <Zone tone="light" scene id="capabilities" labelledBy="capabilities-title">
       <SectionHeader
         id="capabilities-title"
         eyebrow={t.capabilities.eyebrow}
         title={t.capabilities.title}
       />
 
-      <div className="shell mt-16">
+      <div className="shell" style={{ marginTop: "clamp(1.25rem, 5svh, 4rem)" }}>
         <div className="rows">
           {capabilities.map((item, index) => (
             <article
               key={item.title}
-              className="row-item row-num reveal grid items-start gap-x-8 gap-y-4 py-8 md:grid-cols-[4rem_minmax(0,1fr)_minmax(0,1.15fr)]"
-              style={{ "--i": index }}
+              className="row-item row-num reveal grid items-start gap-x-8 gap-y-4 md:grid-cols-[4rem_minmax(0,1fr)_minmax(0,1.15fr)]"
+              style={{ "--i": index, paddingBlock: "clamp(0.85rem, 2.6svh, 2rem)" }}
             >
               {/* The lead row carries the differentiator, so it breaks the
                   uniform grid: accent flag and a step up in title scale. */}

@@ -55,24 +55,31 @@ const Experience = () => {
   const { t } = useLocale();
 
   return (
-    <Zone tone="gray" density="compact" id="experience" labelledBy="experience-title">
+    <Zone tone="gray" scene id="experience" labelledBy="experience-title">
       <SectionHeaderCompact
         id="experience-title"
         eyebrow={t.experience.eyebrow}
         title={t.experience.title}
       />
 
-      <div className="shell mt-14 grid gap-x-16 gap-y-12 lg:grid-cols-2">
-        <Timeline
-          label={t.experience.experienceLabel}
-          entries={experience}
-          startIndex={0}
-        />
-        <Timeline
-          label={t.experience.educationLabel}
-          entries={education}
-          startIndex={3}
-        />
+      <div
+        className="shell grid gap-x-16 gap-y-10 lg:grid-cols-2"
+        style={{ marginTop: "clamp(1.5rem, 5svh, 3.5rem)" }}
+      >
+        <div>
+          <Timeline
+            label={t.experience.experienceLabel}
+            entries={experience}
+            startIndex={0}
+          />
+        </div>
+        <div>
+          <Timeline
+            label={t.experience.educationLabel}
+            entries={education}
+            startIndex={3}
+          />
+        </div>
       </div>
     </Zone>
   );

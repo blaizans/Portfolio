@@ -1,19 +1,23 @@
 import React from "react";
 import Image from "next/image";
 import { Zone, Eyebrow } from "@/components/ui/Zone";
+import Offer from "@/components/Offer";
 import { projects, repositories, profile } from "@/data/site";
 import { useLocale } from "@/i18n/LocaleContext";
 
 /**
- * The page's second visual peak.
+ * The page's second visual peak, built as a sequence of scenes.
  *
- * Shipped products are treated as specimens rather than list items: a
- * full-width plate in colour, a poster-scale title that steps off the plate's
- * left edge, and a spec rail carrying only facts that exist in the data.
- * No metric is displayed that isn't in `site.js`.
+ * 1. A heading scene: the section's name and an index of every project, so the
+ *    reader sees the whole tour before it starts and can jump into it.
+ * 2. One scene per project: title, plate, description and facts, composed to
+ *    fit a single screen. The plate takes only the height left over.
+ * 3. An extra scene for a project that is also an offer.
+ * 4. The smaller repositories, kept quiet.
  *
- * The smaller repositories stay a compact list — the tier difference is the
- * point, and it only reads if the second tier stays quiet.
+ * Shipped products are specimens rather than list items: a plate in colour, a
+ * poster-scale title, and a spec rail carrying only facts that exist in the
+ * data. No metric is displayed that isn't in `site.js`.
  */
 
 /** Fact rail. Renders label/value pairs; nothing here is computed or invented. */
@@ -32,11 +36,61 @@ function SpecRail({ items }) {
   );
 }
 
+/**
+ * The frame around a screenshot. A link when the project has a public URL;
+ * otherwise a plain frame, since a link to nowhere would be a dead click.
+ */
+function Plate({ link, label, className = "", children }) {
+  if (!link) {
+    return <div className={`specimen-plate specimen-plate-static ${className}`}>{children}</div>;
+  }
+  return (
+    <a
+      href={link.href}
+      target="_blank"
+      rel="noreferrer noopener"
+      className={`specimen-plate ${className}`}
+      aria-label={label}
+    >
+      {children}
+    </a>
+  );
+}
+
+/** A small uppercase label over a block of a project's information. */
+function InfoLabel({ children }) {
+  return <h4 className="mono t-muted">{children}</h4>;
+}
+
 function Specimen({ project, index, t }) {
   const primaryLink = project.links[0];
   const linkLabel = primaryLink
     ? t.work.links[primaryLink.label === "Live site" ? "liveSite" : primaryLink.label.toLowerCase()] ??
       primaryLink.label
+    : null;
+
+  // Photos are shown whole, at their real ratio, in a column about 40% of the
+  // width: they illustrate the project, the text carries it. The one exception
+  // is a very wide capture on a phone, where the full-width ratio would shrink
+  // its headline past legibility; `.plate-sized` (globals.css) gives that a
+  // centred crop below `sm`.
+  const size = project.imageSize ?? { width: 1600, height: 900 };
+  const isVeryWide = size.width / size.height > 2;
+  const plateImage = project.image ? (
+    <Image
+      src={project.image}
+      alt={t.work.plateAlts?.[project.title] ?? t.work.screenshotAlt(project.title)}
+      width={size.width}
+      height={size.height}
+      className="specimen-photo plate-sized"
+      data-wide={isVeryWide ? "" : undefined}
+      sizes="(max-width: 1023px) 100vw, 40vw"
+      priority={index === 0}
+      loading="eager"
+    />
+  ) : null;
+  const plateCaption = project.plateCaptionKey
+    ? t.work.plateCaptions?.[project.plateCaptionKey]
     : null;
 
   const rail = [
@@ -48,146 +102,163 @@ function Specimen({ project, index, t }) {
     },
   ];
 
+  // A project that is also an offer already lists what it does: its terms are
+  // shown here as a quick-scan feature list. Nothing is written for the rest.
+  const offer = project.offer ? t.work.offers?.[project.title] : null;
+  const features = offer ? [...offer.shoppers, ...offer.owner].map((row) => row.term) : [];
+
   return (
-    <article className="specimen reveal" style={{ "--i": 0 }}>
-      {/* Index + title, in the hero's rail idiom */}
-      <div className="flex items-start gap-4 sm:gap-6">
-        <span className="specimen-index shrink-0 pt-2" aria-hidden="true">
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <h3 className="specimen-title min-w-0 flex-1">
-          <span className="reveal-mask">
-            <span>{project.title}</span>
+    <article className="specimen" id={`work-${index + 1}`}>
+      <div className="scene shell">
+        {/* Index + title, in the hero's rail idiom */}
+        <div className="reveal flex items-start gap-4 sm:gap-6">
+          <span className="specimen-index shrink-0 pt-2" aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
           </span>
-        </h3>
-      </div>
+          <h3 className="specimen-title min-w-0 flex-1">
+            <span className="reveal-mask">
+              <span>{project.title}</span>
+            </span>
+          </h3>
+        </div>
 
-      {/* Plate — full width, in colour. The evidence, at full strength.
-          Most specimens are one product, one 16:9 screenshot. PNTA is three
-          distinct surfaces (dashboard, promo site, mobile app) — cropping
-          them into one frame would throw two thirds of the evidence away,
-          so it renders as a 3-up strip instead. A `placeholder` project has
-          no screenshot to show at all — an abstract blurred field stands in,
-          openly labelled, rather than a fabricated product shot. Not a
-          link: there is nowhere real to send a click yet. */}
-      {project.placeholder ? (
-        <div className="specimen-plate specimen-placeholder mt-8" aria-hidden="false">
-          <span className="specimen-placeholder-label mono">{t.work.placeholderLabel}</span>
-        </div>
-      ) : project.images ? (
-        <div className="specimen-plate-grid mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-          {project.images.map((img) => (
-            <a
-              key={img.src}
-              href={primaryLink.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="specimen-plate"
-              aria-label={`${project.title} — ${t.work.plateLabels[img.labelKey] ?? img.labelKey}`}
-            >
-              <Image
-                src={img.src}
-                alt={`${t.work.screenshotAlt(project.title)} — ${
-                  t.work.plateLabels[img.labelKey] ?? img.labelKey
-                }`}
-                width={940}
-                height={527}
-                className="w-full"
-                style={{ aspectRatio: "16 / 10", objectFit: "cover", objectPosition: "top" }}
-                sizes="(max-width: 639px) 100vw, 30vw"
-                priority={index === 0}
-                loading="eager"
-              />
-            </a>
-          ))}
-        </div>
-      ) : (
-        <a
-          href={primaryLink.href}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="specimen-plate mt-8"
-          aria-label={`${project.title} — ${linkLabel}`}
+        <div
+          className="grid gap-x-14 gap-y-8 lg:grid-cols-12 lg:items-start"
+          style={{ marginTop: "clamp(1rem, 3.5svh, 2.5rem)" }}
         >
-          <Image
-            src={project.image}
-            alt={t.work.screenshotAlt(project.title)}
-            width={1600}
-            height={900}
-            className="w-full"
-            style={{ aspectRatio: "16 / 9", objectFit: "cover", objectPosition: "left top" }}
-            sizes="(max-width: 1023px) 100vw, 90vw"
-            // These plates are a large share of the section's evidence.
-            // Eager-load rather than risk an empty frame on fast scroll.
-            priority={index === 0}
-            loading="eager"
-          />
-        </a>
-      )}
+          {/* Information: the main column. It comes first so a phone reader
+              meets the project before the picture, and a desktop reader's eye
+              lands on the text. */}
+          <div className="reveal lg:col-span-7" style={{ "--i": 1 }}>
+            <p className="text-lg lg:text-xl" style={{ maxWidth: "56ch", lineHeight: 1.5 }}>
+              {t.work.bodies[project.title] ?? project.body}
+            </p>
 
-      {/* Below the plate: description left, facts right. Uneven on purpose. */}
-      <div className="mt-10 grid gap-x-12 gap-y-8 lg:grid-cols-12">
-        <div className="lg:col-span-6">
-          <p className="text-lg" style={{ maxWidth: "46ch" }}>
-            {t.work.bodies[project.title] ?? project.body}
-          </p>
+            {features.length > 0 ? (
+              <div className="mt-6">
+                <InfoLabel>{t.work.featuresLabel}</InfoLabel>
+                <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+                  {features.map((feature) => (
+                    <li key={feature} className="text-sm" style={{ color: "var(--t-text)" }}>
+                      <span aria-hidden="true" className="mr-2" style={{ color: "var(--t-accent)" }}>
+                        ·
+                      </span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
 
-          <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2">
-            {project.stack.map((tech) => (
-              <li key={tech} className="mono t-muted">
-                {tech}
-              </li>
-            ))}
-          </ul>
+            <div className="mt-6">
+              <InfoLabel>{t.work.builtWith}</InfoLabel>
+              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5">
+                {project.stack.map((tech) => (
+                  <li key={tech} className="mono" style={{ color: "var(--t-text)" }}>
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {project.links.length > 0 ? (
-            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
-              {project.links.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="link link-accent mono"
+            {project.links.length > 0 ? (
+              <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                {project.links.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="link link-accent mono"
+                    >
+                      {t.work.links[
+                        link.label === "Live site" ? "liveSite" : link.label.toLowerCase()
+                      ] ?? link.label}{" "}
+                      ↗
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+
+            {/* Real evidence of the human side of the work, small and quiet. */}
+            {project.proofImage ? (
+              <figure className="specimen-proof mt-8" style={{ maxWidth: "14rem" }}>
+                <Image
+                  src={project.proofImage.src}
+                  alt={t.work.proofAlt?.[project.title] ?? ""}
+                  width={1411}
+                  height={1164}
+                  className="w-full"
+                  style={{ aspectRatio: "1411 / 1164", objectFit: "cover" }}
+                  sizes="14rem"
+                  loading="lazy"
+                />
+                {project.proofImage.captionKey ? (
+                  <figcaption className="mono t-muted mt-2 text-xs">
+                    {t.work.proofCaptions?.[project.proofImage.captionKey] ?? ""}
+                  </figcaption>
+                ) : null}
+              </figure>
+            ) : null}
+          </div>
+
+          {/* The picture and the facts: a modest column, not a banner. PNTA is
+              three distinct surfaces, so it shows one large and two small. A
+              `placeholder` project has no screenshot, so an abstract field
+              stands in, openly labelled. */}
+          <div className="reveal lg:col-span-5" style={{ "--i": 2 }}>
+            {project.placeholder ? (
+              <div className="specimen-plate specimen-placeholder" aria-hidden="false">
+                <span className="specimen-placeholder-label mono">{t.work.placeholderLabel}</span>
+              </div>
+            ) : project.images ? (
+              <div className="specimen-plate-grid grid grid-cols-2 gap-3">
+                {project.images.map((img, imageIndex) => (
+                  <Plate
+                    key={img.src}
+                    className={imageIndex === 0 ? "col-span-2" : ""}
+                    link={primaryLink}
+                    label={`${project.title} — ${t.work.plateLabels[img.labelKey] ?? img.labelKey}`}
                   >
-                    {t.work.links[
-                      link.label === "Live site" ? "liveSite" : link.label.toLowerCase()
-                    ] ?? link.label}{" "}
-                    ↗
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
+                    <Image
+                      src={img.src}
+                      alt={`${t.work.screenshotAlt(project.title)} — ${
+                        t.work.plateLabels[img.labelKey] ?? img.labelKey
+                      }`}
+                      width={img.width}
+                      height={img.height}
+                      className="specimen-thumb"
+                      sizes="(max-width: 1023px) 50vw, 20vw"
+                      priority={index === 0}
+                      loading="eager"
+                    />
+                  </Plate>
+                ))}
+              </div>
+            ) : (
+              <figure>
+                <Plate link={primaryLink} label={`${project.title} — ${linkLabel}`}>
+                  {plateImage}
+                </Plate>
+                {plateCaption ? (
+                  <figcaption className="mono t-muted mt-2">{plateCaption}</figcaption>
+                ) : null}
+              </figure>
+            )}
 
-        <div className="lg:col-span-4 lg:col-start-9">
-          <SpecRail items={rail} />
+            <div className="mt-6">
+              <SpecRail items={rail} />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Proof photo: real evidence of the human side of the work, not
-          another product shot. Full-width, below the facts — a group photo
-          needs room to read, so it doesn't fight the spec rail for a
-          narrow column. Quiet by placement, not by size. */}
-      {project.proofImage ? (
-        <figure className="specimen-proof mt-10" style={{ maxWidth: "32rem" }}>
-          <Image
-            src={project.proofImage.src}
-            alt={t.work.proofAlt?.[project.title] ?? ""}
-            width={1411}
-            height={1164}
-            className="w-full"
-            style={{ aspectRatio: "1411 / 1164", objectFit: "cover" }}
-            sizes="(max-width: 1023px) 100vw, 60vw"
-            loading="lazy"
-          />
-          {project.proofImage.captionKey ? (
-            <figcaption className="mono t-muted mt-3 text-xs">
-              {t.work.proofCaptions?.[project.proofImage.captionKey] ?? ""}
-            </figcaption>
-          ) : null}
-        </figure>
+      {/* A specimen that is also an offer: what is included, and one way to ask. */}
+      {offer ? (
+        <div className="scene shell">
+          <Offer offer={offer} />
+        </div>
       ) : null}
     </article>
   );
@@ -197,9 +268,9 @@ const Work = () => {
   const { t } = useLocale();
 
   return (
-    <Zone tone="light" density="expansive" id="work" labelledBy="work-title">
-      {/* Bespoke opening: poster-scale headline, not the standard eyebrow stack */}
-      <header className="shell registration">
+    <Zone tone="light" density="flush" id="work" labelledBy="work-title">
+      {/* Heading scene: the section's name, then the whole tour at a glance. */}
+      <header className="scene shell registration">
         <div className="reveal flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
           <Eyebrow>{t.work.eyebrow}</Eyebrow>
           <span className="mono t-muted" aria-hidden="true">
@@ -207,32 +278,52 @@ const Work = () => {
           </span>
         </div>
 
-        {/* Poster face, used once here — short label only, so it reads as a
+        {/* Poster face, used once here: a short label, so it reads as a
             masthead echo rather than a wall of condensed caps. */}
-        <h2 id="work-title" className="poster-face mt-8">
+        <h2 id="work-title" className="poster-face mt-6">
           <span className="reveal-mask">
             <span>{t.work.poster}</span>
           </span>
         </h2>
 
-        <p
-          className="reveal measure t-muted mt-7 text-lg"
-          style={{ "--i": 1 }}
-        >
+        <p className="reveal measure t-muted mt-5 text-lg" style={{ "--i": 1 }}>
           {t.work.title}
         </p>
+
+        <ol className="rows" style={{ marginTop: "clamp(1.25rem, 5svh, 3.5rem)" }}>
+          {projects.map((project, index) => (
+            <li key={project.title}>
+              <a
+                href={`#work-${index + 1}`}
+                className="row-item row-fill reveal block"
+                style={{ "--i": index, textDecoration: "none", color: "inherit" }}
+              >
+                <div
+                  className="grid items-baseline gap-x-6 gap-y-1 px-4 md:grid-cols-[3rem_minmax(0,1fr)_auto_auto]"
+                  style={{ paddingBlock: "clamp(0.6rem, 1.9svh, 1.25rem)" }}
+                >
+                  <span className="mono t-muted" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="t-title">{project.title}</span>
+                  <span className="mono t-muted">{t.work.roles[project.role] ?? project.role}</span>
+                  <span className="mono t-muted">{project.year}</span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ol>
       </header>
 
-      {/* Specimens: generous air between them so each owns its own screen */}
-      <div className="shell mt-20 flex flex-col gap-24 md:gap-32">
-        {projects.map((project, index) => (
-          <Specimen key={project.title} project={project} index={index} t={t} />
-        ))}
-      </div>
+      {/* One composed screen per project */}
+      {projects.map((project, index) => (
+        <Specimen key={project.title} project={project} index={index} t={t} />
+      ))}
 
-      {/* Secondary tier — deliberately quiet, so the specimens keep their weight */}
-      <div className="shell mt-32">
-        <div className="reveal flex flex-wrap items-baseline justify-between gap-4 border-t pt-6"
+      {/* Secondary tier: deliberately quiet, so the specimens keep their weight */}
+      <div className="scene shell">
+        <div
+          className="reveal flex flex-wrap items-baseline justify-between gap-4 border-t pt-6"
           style={{ borderColor: "var(--t-line)" }}
         >
           <h3 className="mono t-muted">{t.work.otherProjects}</h3>
@@ -256,7 +347,10 @@ const Work = () => {
               className="row-item row-fill reveal block"
               style={{ "--i": index, textDecoration: "none", color: "inherit" }}
             >
-              <div className="grid items-baseline gap-x-8 gap-y-2 px-4 py-6 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)_auto]">
+              <div
+                className="grid items-baseline gap-x-8 gap-y-2 px-4 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)_auto]"
+                style={{ paddingBlock: "clamp(0.6rem, 1.9svh, 1.5rem)" }}
+              >
                 <h4 className="t-title">{repo.title}</h4>
                 <p className="t-muted text-sm">{repo.body}</p>
                 <span className="mono t-muted">{repo.year} ↗</span>

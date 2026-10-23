@@ -15,6 +15,22 @@ export const LOCALE_NAMES = {
 export const translations = {
   en: {
     htmlLang: "en",
+    seo: {
+      title: "Bruno Laizans – Software Engineer & Web Developer, Aarhus",
+      description:
+        "Software engineer in Aarhus, Denmark. I build websites, web apps and web shops, and test software at Systematic. Available for freelance work and full-time roles.",
+      h1Extra: "Software engineer and web developer in Aarhus, Denmark",
+      imageAlt: "Bruno Laizans, software engineer in Aarhus, Denmark",
+      jobTitle: "Software Engineer",
+      serviceName: "Bruno Laizans – Software Development and Testing",
+      serviceTypes: [
+        "Website development",
+        "Web application development",
+        "E-commerce development",
+        "Software testing and test automation",
+      ],
+      ogEyebrow: "SOFTWARE ENGINEER — AARHUS, DENMARK",
+    },
     nav: {
       work: "Work",
       about: "About",
@@ -33,6 +49,25 @@ export const translations = {
       availability: "Open to new opportunities",
       pitch:
         "Full-stack engineer and test specialist. I ship web platforms that real people use every day, and I make sure they keep working after launch.",
+      statement: "I build websites and web shops, test them before they ship, and support them after launch.",
+      offer: {
+        label: "What you get",
+        items: [
+          {
+            title: "Built end to end",
+            body: "Websites, web shops and web apps in Java, .NET and TypeScript. Riga Cup serves thousands of visitors.",
+          },
+          {
+            title: "Tested before it ships",
+            body: "Automated tests and CI, as in my two years at Systematic. The webshop is tested on Chrome, Android and iPhone.",
+          },
+          {
+            title: "Supported after launch",
+            body: "I keep what I build running. I have maintained Riga Cup, and the webshop checks its images nightly and sends alerts.",
+          },
+        ],
+        proofLabel: "Real work",
+      },
       hiringNote: "Available for full-time roles and freelance projects",
       hireMe: "Hire me",
       seeWork: "See my work",
@@ -110,9 +145,12 @@ export const translations = {
         statusValue: "Live",
         statusValueAcademic: "Bachelor project",
         statusValueInProgress: "In progress",
+        statusValueReady: "Ready to launch",
       },
       placeholderLabel: "In progress",
       otherProjects: "Other projects",
+      featuresLabel: "What it does",
+      builtWith: "Built with",
       allRepos: "All repositories on GitHub",
       screenshotAlt: (name) => `Screenshot of the ${name} project`,
       roles: {
@@ -125,8 +163,8 @@ export const translations = {
       bodies: {
         PNTA: "Event-discovery ecosystem built for a bachelor thesis: a React Native app for attendees, a Next.js dashboard for venue managers, a Spring Boot/PostgreSQL backend serving both, and a Python model predicting event attendance.",
         "Aarhus Webshop": "E-commerce site for an Aarhus-based entrepreneur, currently in development.",
-        "Sport Teamline":
-          "Football teamwear and equipment store for clubs and players, with a multi-brand catalogue, multi-currency checkout and EU-wide delivery.",
+        "Teamwear Webshop":
+          "A multilingual, multi-currency webshop with a loyalty programme, a built-in finance dashboard and AI-written product pages. Built end to end and run as a real football teamwear business. Ready for a new business, with a new UI.",
         "Riga Cup":
           "Tournament platform for one of the largest youth football tournaments in the Baltics, schedules, results and team management serving thousands of visitors.",
         SyncTask:
@@ -152,6 +190,7 @@ export const translations = {
         web: "Web",
         backend: "Backend",
         "ml model": "ML model",
+        "admin demo": "Admin demo",
       },
       plateLabels: {
         dashboard: "Venue manager dashboard",
@@ -163,6 +202,82 @@ export const translations = {
       },
       proofCaptions: {
         rigaCupAwards: "Awards ceremony, Riga Cup 2019",
+      },
+      plateCaptions: {
+        teamwearReference: "Reference build: football teamwear shop",
+      },
+      plateAlts: {
+        "Teamwear Webshop":
+          "Reference storefront for a football teamwear shop: boots, a jersey and a hoodie around the headline “Your next Level.”",
+      },
+      // Structure is shared across locales: two ruled lists, one quality line,
+      // one closing sentence and an enquiry button. Each item is a term and one
+      // sentence. No prices or packages: none exist to state.
+      offers: {
+        "Teamwear Webshop": {
+          label: "What is included",
+          shoppersLabel: "For shoppers",
+          ownerLabel: "For the owner",
+          shoppers: [
+            {
+              term: "Local by default",
+              body: "Opens in English, Danish or German and prices in EUR or DKK, based on the visitor's country. The choice is remembered.",
+            },
+            {
+              term: "Correct pricing",
+              body: "VAT is calculated for the shopper's country. Sale prices are clearly marked.",
+            },
+            {
+              term: "Loyalty points",
+              body: "One point per euro, redeemable as discount codes. Points are credited only after the return window closes. First-time buyers get a €10 welcome-back credit.",
+            },
+            {
+              term: "Checkout",
+              body: "Payment runs through Stripe. The cart is a drawer that opens from any page.",
+            },
+            {
+              term: "Returns",
+              body: "An online withdrawal form handles the 14-day statutory return without email back and forth.",
+            },
+            {
+              term: "Team orders",
+              body: "Clubs can request a quote for bulk orders.",
+            },
+            {
+              term: "No dead ends",
+              body: "Back-in-stock alerts, product reviews and a “for you” section of relevant products.",
+            },
+          ],
+          owner: [
+            {
+              term: "Live dashboard",
+              body: "Sales, orders and trends in one place, with a demo mode on sample data.",
+            },
+            {
+              term: "Finance built in",
+              body: "Revenue, costs, Stripe fees and the profit split between partners for each month. Confirmed income is kept apart from income that could still be returned.",
+            },
+            {
+              term: "Product texts in bulk",
+              body: "AI drafts descriptions in all three languages from a style guide, and every draft is checked against the rules automatically.",
+            },
+            {
+              term: "Image checks",
+              body: "Supplier images are checked every night. Products with broken photos stay out of the recommendation sections.",
+            },
+            {
+              term: "Private alerts",
+              body: "Important events go to Telegram. No personal data is included.",
+            },
+          ],
+          qualityLabel: "Quality",
+          quality:
+            "Covered by automated tests, including end-to-end tests on desktop Chrome, Android and iPhone. Localised pages, brand pages and guides help it get found in search.",
+          change:
+            "Built as a real business and kept as a reference. A new business needs the UI changed: brand, colours, imagery and copy. The shop itself is ready.",
+          cta: "Ask about Teamwear Webshop",
+          subject: "Teamwear Webshop enquiry",
+        },
       },
     },
     experience: {
@@ -219,6 +334,22 @@ export const translations = {
 
   da: {
     htmlLang: "da",
+    seo: {
+      title: "Bruno Laizans – Softwareudvikler & webudvikler i Aarhus",
+      description:
+        "Softwareudvikler i Aarhus. Jeg bygger hjemmesider, webapplikationer og webshops og tester software hos Systematic. Ledig til freelance og fast job.",
+      h1Extra: "Softwareudvikler og webudvikler i Aarhus, Danmark",
+      imageAlt: "Bruno Laizans, softwareudvikler i Aarhus, Danmark",
+      jobTitle: "Softwareudvikler",
+      serviceName: "Bruno Laizans – Softwareudvikling og test",
+      serviceTypes: [
+        "Udvikling af hjemmesider",
+        "Udvikling af webapplikationer",
+        "Udvikling af webshops",
+        "Softwaretest og testautomatisering",
+      ],
+      ogEyebrow: "SOFTWAREUDVIKLER — AARHUS, DANMARK",
+    },
     nav: {
       work: "Projekter",
       about: "Om mig",
@@ -237,6 +368,25 @@ export const translations = {
       availability: "Ledig nu",
       pitch:
         "Full-stack udvikler og testspecialist. Jeg leverer webplatforme, som rigtige mennesker bruger hver dag, og sikrer at de bliver ved med at virke efter launch.",
+      statement: "Jeg bygger hjemmesider og webshops, tester dem, før de går live, og står for support efter lancering.",
+      offer: {
+        label: "Det får du",
+        items: [
+          {
+            title: "Bygget fra start til slut",
+            body: "Hjemmesider, webshops og webapps i Java, .NET og TypeScript. Riga Cup har tusindvis af besøgende.",
+          },
+          {
+            title: "Testet, før det går live",
+            body: "Automatiserede tests og CI, som i mine to år hos Systematic. Webshoppen er testet på Chrome, Android og iPhone.",
+          },
+          {
+            title: "Support efter lancering",
+            body: "Jeg holder det, jeg bygger, kørende. Jeg har vedligeholdt Riga Cup, og webshoppen tjekker sine billeder hver nat og sender alarmer.",
+          },
+        ],
+        proofLabel: "Rigtigt arbejde",
+      },
       hiringNote: "Ledig til fuldtidsstillinger og freelanceopgaver",
       hireMe: "Ansæt mig",
       seeWork: "Se mine projekter",
@@ -314,9 +464,12 @@ export const translations = {
         statusValue: "Live",
         statusValueAcademic: "Bachelorprojekt",
         statusValueInProgress: "I gang",
+        statusValueReady: "Klar til lancering",
       },
       placeholderLabel: "I gang",
       otherProjects: "Andre projekter",
+      featuresLabel: "Hvad den kan",
+      builtWith: "Bygget med",
       allRepos: "Alle repositories på GitHub",
       screenshotAlt: (name) => `Skærmbillede af projektet ${name}`,
       roles: {
@@ -329,8 +482,8 @@ export const translations = {
       bodies: {
         PNTA: "Event-discovery-økosystem bygget til et bachelorprojekt: en React Native-app til deltagere, et Next.js-dashboard til venue-managere, en Spring Boot/PostgreSQL-backend der betjener begge, og en Python-model der forudsiger fremmøde til events.",
         "Aarhus Webshop": "Webshop til en iværksætter i Aarhus, i øjeblikket under udvikling.",
-        "Sport Teamline":
-          "Webshop med fodboldtøj og udstyr til klubber og spillere, med multi-brand katalog, checkout i flere valutaer og levering i hele EU.",
+        "Teamwear Webshop":
+          "En flersproget webshop med flere valutaer, et loyalitetsprogram, et indbygget økonomidashboard og AI-skrevne produktsider. Bygget fra start til slut og drevet som en rigtig forretning med fodboldtøj. Klar til en ny virksomhed, med en ny brugerflade.",
         "Riga Cup":
           "Turneringsplatform til en af Baltikums største ungdomsfodboldturneringer, kampprogrammer, resultater og holdadministration for tusindvis af besøgende.",
         SyncTask:
@@ -356,6 +509,7 @@ export const translations = {
         web: "Web",
         backend: "Backend",
         "ml model": "ML-model",
+        "admin demo": "Admin-demo",
       },
       plateLabels: {
         dashboard: "Dashboard til venue-managere",
@@ -367,6 +521,79 @@ export const translations = {
       },
       proofCaptions: {
         rigaCupAwards: "Medaljeceremoni, Riga Cup 2019",
+      },
+      plateCaptions: {
+        teamwearReference: "Referencebuild: webshop med fodboldtøj",
+      },
+      plateAlts: {
+        "Teamwear Webshop":
+          "Referencebutik for en webshop med fodboldtøj: støvler, en trøje og en hættetrøje omkring overskriften “Your next Level.”",
+      },
+      offers: {
+        "Teamwear Webshop": {
+          label: "Hvad er med",
+          shoppersLabel: "For kunden",
+          ownerLabel: "For ejeren",
+          shoppers: [
+            {
+              term: "Lokal som standard",
+              body: "Åbner på engelsk, dansk eller tysk og viser priser i EUR eller DKK ud fra den besøgendes land. Valget huskes.",
+            },
+            {
+              term: "Korrekte priser",
+              body: "Moms beregnes for kundens land. Tilbudspriser er tydeligt markeret.",
+            },
+            {
+              term: "Loyalitetspoint",
+              body: "Ét point pr. euro, som kan indløses til rabatkoder. Point krediteres først, når fortrydelsesfristen er udløbet. Førstegangskøbere får en velkomstkredit på 10 €.",
+            },
+            {
+              term: "Betaling",
+              body: "Betalingen kører via Stripe. Kurven er en skuffe, der kan åbnes fra enhver side.",
+            },
+            {
+              term: "Returnering",
+              body: "En online fortrydelsesformular håndterer den lovpligtige 14-dages fortrydelsesret uden e-mails frem og tilbage.",
+            },
+            {
+              term: "Holdbestillinger",
+              body: "Klubber kan bede om et tilbud på større ordrer.",
+            },
+            {
+              term: "Aldrig en blindgyde",
+              body: "Besked når varer er på lager igen, produktanmeldelser og en “til dig”-sektion med relevante produkter.",
+            },
+          ],
+          owner: [
+            {
+              term: "Live dashboard",
+              body: "Salg, ordrer og tendenser samlet ét sted, med en demotilstand på eksempeldata.",
+            },
+            {
+              term: "Økonomi indbygget",
+              body: "Omsætning, omkostninger, Stripe-gebyrer og overskudsfordelingen mellem partnere for hver måned. Bekræftet indtjening holdes adskilt fra indtjening, der stadig kan returneres.",
+            },
+            {
+              term: "Produkttekster i bulk",
+              body: "AI skriver beskrivelser på alle tre sprog ud fra en stilguide, og hvert udkast kontrolleres automatisk mod reglerne.",
+            },
+            {
+              term: "Billedkontrol",
+              body: "Leverandørbilleder tjekkes hver nat. Produkter med ødelagte billeder holdes ude af anbefalingssektionerne.",
+            },
+            {
+              term: "Private notifikationer",
+              body: "Vigtige hændelser sendes til Telegram. Der medsendes ingen persondata.",
+            },
+          ],
+          qualityLabel: "Kvalitet",
+          quality:
+            "Dækket af automatiske tests, herunder end-to-end-tests på desktop-Chrome, Android og iPhone. Lokaliserede sider, mærkesider og guides gør butikken nem at finde i søgemaskiner.",
+          change:
+            "Bygget som en rigtig forretning og bevaret som reference. En ny virksomhed skal have ændret brugerfladen: brand, farver, billeder og tekster. Selve butikken er klar.",
+          cta: "Spørg om Teamwear Webshop",
+          subject: "Henvendelse om Teamwear Webshop",
+        },
       },
     },
     experience: {
@@ -423,6 +650,22 @@ export const translations = {
 
   ru: {
     htmlLang: "ru",
+    seo: {
+      title: "Bruno Laizans – Инженер-программист и веб-разработчик, Орхус",
+      description:
+        "Инженер-программист в Орхусе, Дания. Создаю сайты, веб-приложения и интернет-магазины, тестирую ПО в Systematic. Открыт для фриланса и постоянной работы.",
+      h1Extra: "Инженер-программист и веб-разработчик в Орхусе, Дания",
+      imageAlt: "Bruno Laizans, инженер-программист в Орхусе, Дания",
+      jobTitle: "Инженер-программист",
+      serviceName: "Bruno Laizans – Разработка и тестирование ПО",
+      serviceTypes: [
+        "Разработка сайтов",
+        "Разработка веб-приложений",
+        "Разработка интернет-магазинов",
+        "Тестирование ПО и автоматизация тестирования",
+      ],
+      ogEyebrow: "ИНЖЕНЕР-ПРОГРАММИСТ — ОРХУС, ДАНИЯ",
+    },
     nav: {
       work: "Проекты",
       about: "Обо мне",
@@ -441,6 +684,25 @@ export const translations = {
       availability: "Свободен сейчас",
       pitch:
         "Full-stack разработчик и специалист по тестированию. Я выпускаю веб-платформы, которыми люди пользуются каждый день, и слежу, чтобы они работали после запуска.",
+      statement: "Я делаю сайты и интернет-магазины, тестирую их до запуска и поддерживаю после запуска.",
+      offer: {
+        label: "Что вы получите",
+        items: [
+          {
+            title: "Сделано от начала до конца",
+            body: "Сайты, интернет-магазины и веб-приложения на Java, .NET и TypeScript. Riga Cup обслуживает тысячи посетителей.",
+          },
+          {
+            title: "Проверено до запуска",
+            body: "Автотесты и CI, как в моих двух годах в Systematic. Магазин протестирован на Chrome, Android и iPhone.",
+          },
+          {
+            title: "Поддержка после запуска",
+            body: "Я слежу за тем, что построил. Я поддерживал Riga Cup, а магазин каждую ночь проверяет изображения и шлёт уведомления.",
+          },
+        ],
+        proofLabel: "Реальные работы",
+      },
       hiringNote: "Открыт для постоянной работы и проектов на фрилансе",
       hireMe: "Нанять меня",
       seeWork: "Мои работы",
@@ -518,9 +780,12 @@ export const translations = {
         statusValue: "Live",
         statusValueAcademic: "Дипломный проект",
         statusValueInProgress: "В процессе",
+        statusValueReady: "Готов к запуску",
       },
       placeholderLabel: "В процессе",
       otherProjects: "Другие проекты",
+      featuresLabel: "Что умеет",
+      builtWith: "Стек",
       allRepos: "Все репозитории на GitHub",
       screenshotAlt: (name) => `Скриншот проекта ${name}`,
       roles: {
@@ -533,8 +798,8 @@ export const translations = {
       bodies: {
         PNTA: "Экосистема для поиска мероприятий, созданная как дипломный проект: приложение на React Native для гостей, дашборд на Next.js для менеджеров площадок, бэкенд на Spring Boot/PostgreSQL, обслуживающий оба, и модель на Python, предсказывающая посещаемость мероприятий.",
         "Aarhus Webshop": "Интернет-магазин для предпринимателя из Орхуса, сейчас в разработке.",
-        "Sport Teamline":
-          "Магазин футбольной экипировки для клубов и игроков: каталог из нескольких брендов, оплата в разных валютах и доставка по всему ЕС.",
+        "Teamwear Webshop":
+          "Многоязычный интернет-магазин с несколькими валютами, программой лояльности, встроенной финансовой панелью и страницами товаров, написанными ИИ. Собран от начала до конца и работал как настоящий бизнес по продаже футбольной экипировки. Готов для нового бизнеса, с новым интерфейсом.",
         "Riga Cup":
           "Платформа для одного из крупнейших юношеских футбольных турниров Балтии, расписания, результаты и управление командами для тысяч посетителей.",
         SyncTask:
@@ -560,6 +825,7 @@ export const translations = {
         web: "Веб",
         backend: "Бэкенд",
         "ml model": "ML-модель",
+        "admin demo": "Демо админки",
       },
       plateLabels: {
         dashboard: "Дашборд для менеджеров площадок",
@@ -571,6 +837,79 @@ export const translations = {
       },
       proofCaptions: {
         rigaCupAwards: "Церемония награждения, Riga Cup 2019",
+      },
+      plateCaptions: {
+        teamwearReference: "Референсная сборка: магазин футбольной экипировки",
+      },
+      plateAlts: {
+        "Teamwear Webshop":
+          "Референсная витрина магазина футбольной экипировки: бутсы, футболка и худи вокруг заголовка «Your next Level.»",
+      },
+      offers: {
+        "Teamwear Webshop": {
+          label: "Что входит",
+          shoppersLabel: "Для покупателей",
+          ownerLabel: "Для владельца",
+          shoppers: [
+            {
+              term: "Свой язык и валюта",
+              body: "Магазин открывается на английском, датском или немецком и показывает цены в EUR или DKK в зависимости от страны посетителя. Выбор запоминается.",
+            },
+            {
+              term: "Верные цены",
+              body: "НДС считается по стране покупателя. Цены со скидкой отмечены явно.",
+            },
+            {
+              term: "Бонусные баллы",
+              body: "Один балл за евро, баллы обмениваются на промокоды. Баллы начисляются только после окончания срока возврата. Новым покупателям полагается приветственный кредит 10 €.",
+            },
+            {
+              term: "Оплата",
+              body: "Платежи проходят через Stripe. Корзина — выдвижная панель, которая открывается с любой страницы.",
+            },
+            {
+              term: "Возвраты",
+              body: "Онлайн-форма отказа оформляет законный 14-дневный возврат без переписки по почте.",
+            },
+            {
+              term: "Заказы для команд",
+              body: "Клубы могут запросить предложение на крупный заказ.",
+            },
+            {
+              term: "Без тупиков",
+              body: "Уведомления о поступлении товара, отзывы и раздел «для вас» с подходящими товарами.",
+            },
+          ],
+          owner: [
+            {
+              term: "Живая панель",
+              body: "Продажи, заказы и тренды в одном месте, плюс демо-режим на примерных данных.",
+            },
+            {
+              term: "Финансы внутри",
+              body: "Выручка, расходы, комиссии Stripe и распределение прибыли между партнёрами по каждому месяцу. Подтверждённый доход отделён от дохода, который ещё могут вернуть.",
+            },
+            {
+              term: "Описания товаров пакетом",
+              body: "ИИ пишет описания на всех трёх языках по руководству по стилю, и каждый черновик автоматически проверяется на соответствие правилам.",
+            },
+            {
+              term: "Проверка изображений",
+              body: "Изображения поставщиков проверяются каждую ночь. Товары с битыми фото не попадают в блоки рекомендаций.",
+            },
+            {
+              term: "Приватные уведомления",
+              body: "Важные события приходят в Telegram. Персональные данные в них не включаются.",
+            },
+          ],
+          qualityLabel: "Качество",
+          quality:
+            "Покрыт автоматическими тестами, включая сквозные тесты в десктопном Chrome, Android и iPhone. Локализованные страницы, страницы брендов и руководства помогают находить магазин в поиске.",
+          change:
+            "Собран как настоящий бизнес и сохранён как референс. Новому бизнесу нужно сменить интерфейс: бренд, цвета, изображения и тексты. Сам магазин готов.",
+          cta: "Спросить о Teamwear Webshop",
+          subject: "Запрос о Teamwear Webshop",
+        },
       },
     },
     experience: {

@@ -12,7 +12,9 @@ web
 
 **Secondary: recruiters**, more often on mobile, doing a faster and shallower pass for the same signals.
 
-**Secondary: freelance and contract enquirers**, reached mainly in English and Russian. They are a real audience but not the conversion target — the site notes availability for freelance rather than selling a freelance service. There is no rate card, service menu, or client-facing offer, and future work must not invent one.
+**Secondary: freelance and contract enquirers**, reached mainly in English and Russian. They are a real audience but not the conversion target — the site notes availability for freelance rather than selling a freelance service. There is no rate card or service menu, and future work must not invent one. The hero's "What you get" lists three outcomes in lifecycle order (built end to end, tested before it ships, supported after launch), each tied to evidence already on the page; it is a statement of what a reader receives, not a price list. "Support after launch" is stated as a fact about how Bruno works, with no terms, retainer, SLA or response guarantee, because none have been given. Do not describe the testing as meeting a named standard or as "highest standard": no certification is on record.
+
+**One deliberate exception: the Teamwear Webshop.** The webshop built for a football teamwear business is offered as a ready-made storefront for new businesses (only the UI changes). It is the single offer on the site, lives inside its Work specimen rather than a services section, and ends in a plain enquiry by email. It carries no price, package or terms, because none have been given; do not add any. A prospective buyer is a business owner rather than a hiring manager, so the specimen explains what is included in plain language, not as an engineering write-up.
 
 Language priority follows the audience, not locale parity: Danish and English carry the hiring case; Russian exists for freelance reach.
 
@@ -44,13 +46,13 @@ Supporting truths: full-stack across Java, .NET and TypeScript; two products act
 
 ## Capabilities and Constraints
 
-**Stack:** Next.js 13 (Pages Router), React 18, Tailwind CSS 3. No animation libraries, no UI component library, no icon package — motion is a hand-written `IntersectionObserver` (`useReveal`) plus a canvas grid-mesh; icons are inline SVG. This zero-dependency posture is deliberate and is part of the performance argument.
+**Stack:** Next.js 16 (Pages Router), React 19, Tailwind CSS 4 (CSS-first: `@import "tailwindcss"` plus a small `@theme inline` block in `globals.css`, no `tailwind.config.js`). No animation libraries, no UI component library, no icon package — motion is a hand-written `IntersectionObserver` (`useReveal`) plus a canvas sky (stars, planet horizon, first light); icons are inline SVG. This zero-dependency posture is deliberate and is part of the performance argument.
 
 **Content architecture:** all content lives in `src/data/site.js`; all prose lives in `src/data/locales.js`. Nothing is hardcoded in JSX. New content is added to the data layer, never to a component.
 
-**Internationalisation:** three locales — `en` (default), `da`, `ru`. Locale is held in React context, persisted to `localStorage`, and falls back to `navigator.languages`. It always renders `en` on the server so hydration matches, then applies the preference on mount. Structural data (URLs, dates, technology names, organisation names) is deliberately untranslated. Any new prose must be added in all three locales or it will render as a gap.
+**Internationalisation:** three locales — `en` (default), `da`, `ru`. The locale is the URL (Next.js `i18n` routing): `/` is English, `/da` Danish, `/ru` Russian, each statically rendered in its own language with `<html lang>` set on the server, so crawlers index every language. `src/proxy.js` routes the bare `/` on first visit only: a `NEXT_LOCALE` cookie (set by the language switcher) always wins, then visitors in Denmark (`x-vercel-ip-country`) or whose browser ranks Danish first go to `/da`, and everyone else stays on English. Crawlers and link-preview bots are never redirected. Russian is reached only through the switcher or `/ru`, not auto-detected. Per-language SEO copy (title, description, schema service types, OG image text) lives in `seo` inside each locale in `locales.js`. Structural data (URLs, dates, technology names, organisation names) is deliberately untranslated. Any new prose must be added in all three locales or it will render as a gap.
 
-**Deployment:** Vercel, at `https://blaizans.vercel.app`. The full Next.js runtime is available; there is no static-export constraint. Note: `src/pages/index.js` currently sets the canonical URL, OG URL, and `Person` schema `url` to `https://blaizans.github.io`, which is **stale and incorrect** and should be corrected to the Vercel domain.
+**Deployment:** Vercel, at `https://blaizans.vercel.app`. The full Next.js runtime is available; there is no static-export constraint. The hostname is defined once in `src/data/seo.js` (`NEXT_PUBLIC_SITE_URL` overrides it) and feeds every canonical, `hreflang`, Open Graph URL, schema URL, `/sitemap.xml`, `/robots.txt` and `/llms.txt`; those three are generated routes, not static files. Social images are PNGs in `public/og-image*.png`, rendered by `node scripts/generate-og-images.mjs` from `scripts/og-template.svg` (re-run after changing `seo` copy or the hostname). Search Console and Bing ownership tokens are read from `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` and `NEXT_PUBLIC_BING_SITE_VERIFICATION`.
 
 **Performance budget:** LCP < 2.5s, CLS < 0.1, JS < 150kb gzipped.
 
@@ -66,7 +68,7 @@ Supporting truths: full-stack across Java, .NET and TypeScript; two products act
 ## Evidence on Hand
 
 **Shipped products with real users — the strongest evidence, given full visual weight:**
-- **Sport Teamline** (2025, full-stack) — football teamwear and equipment store; multi-brand catalogue, multi-currency checkout, EU-wide delivery. Live at `sport-teamline.dk`. Image: `public/sport-teamline.png`.
+- **Teamwear Webshop** (2025, full-stack) — a multilingual, multi-currency webshop with a loyalty programme, a built-in finance dashboard and AI-written product pages, built end to end and run as a real football teamwear business. Now presented as a ready-made storefront for new businesses. "Teamwear Webshop" is a plain descriptive name that replaces the shop's original brand, which is not written anywhere on the site's visible text. The reference build is live at `https://teamsport-dk.vercel.app` and the specimen links to it. Image: `public/storefront-reference.png` (the reference build, cropped so the original brand's header is not shown). Feature claims in the offer block come from the owner's own project notes, not from this repository.
 - **Riga Cup** (2024, full-stack) — tournament platform for one of the largest youth football tournaments in the Baltics; schedules, results, team management, thousands of visitors. Live at `rigacup.lv/winter`. Image: `public/rc.jpg`.
 
 **Repositories** (course and side projects, listed compactly and linked to GitHub): Pokédex, SyncTask, Slaughterhouse API, TicTacTwo, and this Portfolio. Real and public, but secondary evidence.

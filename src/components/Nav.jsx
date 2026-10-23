@@ -60,7 +60,9 @@ const Nav = () => {
           setTone(toneOf(zones[winningIndex]));
         },
         {
-          rootMargin: `-${probe}px 0px -${window.innerHeight - probe - 1}px 0px`,
+          // Clamped: innerHeight can briefly be <= probe mid-resize, and a
+          // double negative ("--5px") makes the constructor throw.
+          rootMargin: `-${probe}px 0px -${Math.max(0, window.innerHeight - probe - 1)}px 0px`,
           threshold: 0,
         },
       );
@@ -207,7 +209,7 @@ const Nav = () => {
         aria-modal="true"
         aria-label={t.nav.siteMenu}
         aria-hidden={!isOpen}
-        {...(isOpen ? {} : { inert: "" })}
+        inert={!isOpen}
         className={`ui-dark fixed inset-0 z-40 md:hidden ${isOpen ? "" : "pointer-events-none"}`}
         style={{
           backgroundColor: "var(--t-bg)",

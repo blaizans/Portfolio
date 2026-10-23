@@ -97,10 +97,10 @@ Rules:
 
 | # | Zone | Section | Purpose |
 |---|---|---|---|
-| 1 | dark | **Hero** — full-bleed name lockup over an interactive grid-mesh canvas, value pitch, "Hire me" CTA, proof strip | 20-second decision surface, optimised for contact |
+| 1 | dark | **Hero** — name lockup over an interactive ring canvas, one-sentence statement, availability, "Hire me" CTA, "What you get" outcomes, proof strip | 20-second decision surface: who, what you get, how to reach me (section 10) |
 | 2 | light | **Capabilities** — numbered rows: Backend, Frontend, Testing & QA, Cloud & DevOps | What he actually does |
 | 3 | dark | **About** — short bio + stat counters (years, projects, technologies) | Credibility, quantified |
-| 4 | light | **Selected Work** — two tiers: shipped products (Sport Teamline, Riga Cup) with imagery, then compact repo list linked to GitHub | The evidence |
+| 4 | light | **Selected Work** — two tiers: shipped products (Teamwear Webshop, Riga Cup, PNTA) with imagery, then compact repo list linked to GitHub. Teamwear Webshop also carries an offer block (section 9) | The evidence, and one product for sale |
 | 5 | gray | **Experience & Education** — two-column timeline | Verifiable history |
 | 6 | dark | **Toolset** — grouped by domain as type lists, not logo cards | Stack, scannable |
 | 7 | light | **Contact** — direct CTA, email, LinkedIn, GitHub, CV | Conversion |
@@ -123,7 +123,7 @@ Section order follows the reader's actual question sequence: *who → what → p
 
 ## 5. Performance Targets
 LCP < 2.5s · CLS < 0.1 · JS < 150kb gz.
-Self-hosted variable fonts with `font-display: swap` + preload of the single critical weight. Zero animation libraries — the motion layer is a hand-written IntersectionObserver plus a ~3kb canvas grid-mesh, both `prefers-reduced-motion` aware and paused when off-screen or backgrounded. Drops the `flowbite` dependency (unused) and the `react-icons` barrel import in favor of inline SVG.
+Self-hosted variable fonts with `font-display: swap` + preload of the single critical weight. Zero animation libraries — the motion layer is a hand-written IntersectionObserver plus a ~3kb sky canvas, both `prefers-reduced-motion` aware and paused when off-screen or backgrounded. Drops the `flowbite` dependency (unused) and the `react-icons` barrel import in favor of inline SVG.
 
 
 ---
@@ -207,4 +207,224 @@ Recorded so the reasoning isn't relitigated:
 1. **Centred type + gradient blob** — rejected: textbook AI-generated layout.
 2. **Split-screen with portrait** — rejected: photo dominated, type stranded, felt like a consultancy page.
 3. **Organic flow-field particles** — rejected: the curved streaks read as sperm-like rather than engineered.
-4. **Grid-mesh canvas (current)** — a strict lattice that flexes toward the cursor. Geometric, precise, on-brand for an engineer, and never organic.
+4. **Grid-mesh canvas** — a strict lattice that flexes toward the cursor. Replaced in section 10: straight lines read as a generic "tech" backdrop, and with the three column hairlines on top the hero was all rules and no message.
+5. **Ring field** — see section 10. Extended into a sunrise sky in section 11 (current).
+
+---
+
+## 9. Teamwear Webshop: one specimen that is also an offer
+
+The webshop built for a football teamwear business is now presented as a
+ready-made storefront for new businesses ("ready, only the UI changes").
+This is the one place on the page that sells something, so it gets one extra
+element and nothing else changes around it.
+
+**Decision: extend the specimen, do not add a section.** A separate "Services"
+band would make the site read as a freelance agency, which `PRODUCT.md` rules
+out. The offer lives inside the Teamwear Webshop specimen so the reader meets it as
+evidence first and as an offer second.
+
+### Anatomy
+```
+01  LAUNCHCART                       poster title (unchanged specimen pattern)
+[ plate: reference build, cropped to the storefront, no brand chrome ]
+reference build: football teamwear shop           mono caption under the plate
+description + stack tags        |  spec rail: role / year / status
+-----------------------------------------------------------------------
+WHAT IS INCLUDED                                  mono label on a hairline
+For shoppers            |  For the owner          two ruled lists, uneven rhythm
+term  .  one line       |  term  .  one line
+-----------------------------------------------------------------------
+What changes for a new business: the UI.     [ ASK ABOUT LAUNCHCART -> ]
+```
+
+### Rules
+- **Reuse, don't invent.** Ruled rows (`.spec-rail` idiom), mono labels, the
+  existing `.btn`. No new colour, no card, no badge. One accent, as before.
+- **One action.** The enquiry `.btn` is the only filled control in the block;
+  there is no price, rate card or package table (not invented, per `PRODUCT.md`).
+- **Honest plate.** The image is the real reference build with the previous
+  brand cropped off, and a caption says so. The reference build is live at
+  `teamsport-dk.vercel.app`, so the plate and a "Live site" link both go there
+  and the plate carries the standard hover.
+- **Status reads "Live"** (the default), matching the live link beside it.
+- **Motion:** nothing new. The block joins the existing `.reveal` stagger; the
+  button gains the missing `:active` press (`scale(0.97)`, 160ms) that all
+  `.btn`s should have had.
+- **Voice:** plain and declarative, as everywhere. Each row is a term and one
+  sentence, with no superlatives. Three locales (en, da, ru) in `locales.js`.
+- **Naming:** "Teamwear Webshop" is a plain two-word description rather than a
+  brand (renamed from the working title "Launchcart"). It is held in a single
+  data field (`site.js`) plus three locale keys, so it can be swapped in one pass.
+
+### Responsive
+Single column below `lg` (shoppers, then owner, then CTA row stacking with the
+button full-width); two columns from `lg`, where each column has room for its rows.
+Verified at 375px before 1440px.
+
+### Plate on phones
+The reference capture is 1831x723 (ratio 2.53). Full-width at 375px that is a
+plate ~130px tall with an unreadable headline. Desktop keeps the real ratio
+(nothing cropped); below `sm` the plate becomes a 4:3 centred crop
+(`.plate-sized`), which keeps the headline and the central products in frame.
+
+---
+
+## 10. Hero: say what you get, drop the straight-line grid
+
+### UX test of the previous hero (1440x900 and 375x812)
+| Finding | Evidence |
+|---|---|
+| The hero never says what is on offer | Name plus "Full-stack engineer and test specialist. I ship web platforms..." No noun a visitor can buy or hire: no website, web shop, web app, testing. |
+| The proof and availability ledger sat below the fold on desktop | The name lockup was sized at 27vh (about 470px tall) and pushed the ledger off a 900px screen. |
+| Straight-line grid | Canvas lattice plus three vertical hairlines. Reads as a generic backdrop and competes with the type. |
+| Mobile ledger stacked five lines deep | Availability, the one line a recruiter wants, was last. |
+
+### Changes
+- **Background:** concentric rings on a canvas. Curved, never straight, never organic. Even rings are solid, odd rings are dotted and rotate in opposite directions. Each ring's centre drifts with the cursor in proportion to its index, so the set tilts like a tunnel. A ring lights up where the cursor passes near its edge. With no pointer, the rings drift slowly on their own. Static under `prefers-reduced-motion`. The three vertical hairlines and the index rail are removed from the hero (`.registration` stays on Work, About and Contact).
+- **Lockup:** sized from the left column (`.poster-lockup`, 20vh cap) so it is still the dominant element but no longer eats the screen.
+- **Statement:** one plain sentence in the display face, directly under the name: what I build, and that I test it. Replaces the abstract pitch.
+- **Availability** (dot plus one line) sits between the statement and the CTA, so it is above the fold on both desktop and phone.
+- **What you get:** right column on desktop, below the CTA on phones. Three steps of one lifecycle, each a title and one sentence that names its evidence: **built end to end** (Riga Cup, the Teamwear Webshop), **tested before it ships** (Systematic, end-to-end tests on Chrome, Android and iPhone), **supported after launch** (maintained Riga Cup, the webshop's nightly image checks and alerts). The order is the argument: quality and responsibility are shown as a sequence he owns, not a list of skills. A drawn check mark, not a number, so it does not repeat the 01-04 numbering in Capabilities and echoes the testing identity. Ruled rows, no card, no new colour.
+- **Quality without superlatives:** the copy never says "highest standard" or "best practice". No certification is on record, so the claim is carried by what was done and where (two years at Systematic, named browsers and devices, named live sites), which a reader can check.
+- **Ledger:** experience, focus, response time. "Status: Available now" removed because availability is now stated above.
+
+### Rules
+- Outcomes are stated as what the reader receives, not as a price list. No rates, packages or terms (still true per `PRODUCT.md`).
+- Every sentence in the offer comes from facts already in the data layer. No new metrics.
+- Hero offer and Capabilities must not repeat each other: the hero speaks in deliverables, Capabilities in skills and tools.
+- Strings live in `hero.statement` and `hero.offer` in all three locales.
+
+---
+
+## 11. Hero: cosmic, with hope ("first light")
+
+**Brief:** make the hero feel cosmic, with a feeling of hope.
+
+**Idea:** a night sky just before sunrise. Cosmic is stars and orbits. Hope is warmth arriving: a small sun rising from below the hero's bottom edge, with its light travelling outward along the orbits. It also suits the message: a visitor with a site that has to keep working should feel steadiness and light, not a cold dark void.
+
+### Rules
+- **Warmth is rare.** One new token, `--hope: #ffc27a`, plus `--sky-top: #0b0d1f` for the deep top of the sky. Gold appears only on the sun, the inner orbits (fading to the existing periwinkle by the ninth ring) and the availability dot. Everything else keeps the single periwinkle accent. No gold on text or buttons.
+- **No blob.** There is no big gradient wash. The glow is a small radial light tied to a real object (the sun) that the orbits are centred on, so the structure stays legible.
+- **Stars:** a sparse random scatter, not a lattice. Three parallax layers drift against the cursor; they fade toward the horizon, where the sun's light takes over. They twinkle slowly (sine, per-star phase).
+- **Orbits:** the existing rings, now centred on the sun. Three small satellites travel on three of them at different speeds and directions.
+- **Rise:** on load the sun rises about 80px into place while the rings draw out. It happens once and does not repeat.
+- **Placement:** desktop, sun at the lower right under the offer panel. Phones, the sun sits at the bottom of the first screen, not the bottom of the page, so it is visible without scrolling.
+- **Legibility first:** the dark overlay is kept only at the top, for the nav. Text sits on the left over the darkest part of the sky. Body copy in the offer panel stays above 4.5:1 against the lit area.
+- **Reduced motion:** a still sky. Stars fixed, sun in place, satellites parked. Nothing is hidden by the preference.
+- **Canvas:** `CosmosField.jsx` replaces `RingField.jsx`. Dependency-free, pauses off-screen.
+
+---
+
+## 12. Hero: planet horizon (supersedes the orbits in section 11)
+
+**Brief (from the user, with a reference image):** a dark cosmos with a large planet whose sunlit rim glows orange-red and fades into space. "Avoid geometry completely, step away from it."
+
+This overrules two earlier rejections: the gradient-led atmosphere (section 8, direction 1) and the organic look (direction 3). Those were rejected as generic AI layouts; here the glow belongs to a real object (a planet lit by a rising sun) and the reference is explicit.
+
+### Changes
+- **Removed:** concentric orbits, dotted rings, satellites, the sun disc, and every straight rule in the hero (offer row dividers, ledger rule).
+- **Planet:** a very large near-black body fills the lower part of the hero, and its body fills everything below the limb, so text there sits on dark. The limb peaks in the gap between the name and the offer panel on desktop. Its height is not a fixed fraction of the screen: the canvas measures the blocks marked `data-hero-avoid` (the CTA row, and the offer panel in the two-column layout) and lowers the horizon until the limb clears the bottom of each by 28px. It re-measures once fonts load and after the reveal settles. Text never crosses the rim at 1366x768, 1440x900, 375px or in Russian, which has the longest copy.
+- **Light:** a thin white-hot rim, then gold, orange and red fading outward, with a faint violet far out. It is brightest at one point to the right of the limb's top and fades along the arc, as in the reference. A soft bloom sits at that point. The cursor moves the hot spot a few degrees and drifts the planet a few pixels.
+- **Sunrise:** on load the planet rises about 90px and the light fades up over 2.6s, once.
+- **Stars:** unchanged (random scatter, three parallax layers, slow twinkle), thinning toward the limb and hidden behind the planet.
+- **Palette:** unchanged tokens. `--hope` remains the warm colour; the red-orange of the outer glow is drawn in the canvas only and appears nowhere else.
+- **Still to decide:** the type and buttons are unchanged (poster lockup, square buttons). The reference uses light, centred type and pill buttons. Left alone because the lockup is the brand mark.
+- **Reduced motion:** a still frame.
+
+---
+
+## 13. Hero: cinematic, centred, informative (supersedes the layout in sections 10 and 12)
+
+**Feedback:** the planet hero "doesn't look impressive and breathtaking and responsibly informative".
+
+### What was wrong
+- At wide sizes the planet was a thin arc low on the screen and the top half was empty sky. No scale, no depth.
+- The offer sat in a narrow column beside the name; the proof was a line of small mono text.
+- The hero's content relied on an `IntersectionObserver` to become visible. A capture taken early showed the nav, buttons and offer list missing. It could not be reproduced at the same viewport, but a first screen that can sit empty is the opposite of informative.
+
+### Changes
+- **Composition:** centred, like the reference. Role line, name on one line (two stacked lines below 768px), one sentence, availability, one button and one plain link. The planet sits directly under the buttons; below its edge, on its dark surface, come the three outcomes in columns and a "Real work" row.
+- **Why the offer sits on the planet:** nothing glows behind the text there, so it stays readable, and the glow stays free to be dramatic. The limb is placed from the bottom of the button row (`data-hero-avoid`), so it is as high as the copy allows and the planet fills the rest.
+- **Scale:** the planet radius is 95% of the width on desktop, so it reads as a sphere. A lit crescent of atmosphere sits just inside the edge, and a soft streak of light crosses the bright point.
+- **Sky:** a violet and a blue nebula and a faint Milky Way, painted once per resize; 280 stars, the brightest with a halo; the bright point drifts slowly on its own as well as following the cursor.
+- **Proof:** a "Real work" row of three named, linked places a reader can check: Systematic, Riga Cup, the Teamwear Webshop. Typographic names, not logos: the Systematic logo file is no longer in `public/`, and the Riga Cup SVG has dark parts that disappear on a dark sky. Held in `heroProof` in `site.js`.
+- **Copy:** each outcome shortened to at most three lines so all three fit above the planet's lower edge. The nightly checks, device list and Systematic years are unchanged facts.
+- **Ledger removed:** experience, focus and response time repeat what the sections below say, and the availability line already states what a hiring manager needs.
+- **Entrance:** CSS only (`.enter`, `.enter-mask` in `globals.css`). Content ends fully visible without JavaScript; reduced motion collapses the duration.
+- **Known seam:** the dark planet meets the light Capabilities band with a hard edge. Worth softening next.
+
+---
+
+## 14. Page order
+
+### Order (supersedes the table in section 3)
+Reasoned from the reader's questions and `PRODUCT.md`: a hiring manager skims for role, stack, proof, then contact, and decides in about 20 seconds.
+
+| # | Band | Tone | Answers |
+|---|---|---|---|
+| 1 | Hero | dark | Who is this, what do I get, is he available, how do I reach him |
+| 2 | Work | light | Is there proof? Live products a reader can open |
+| 3 | Experience | gray | Is the history verifiable? Systematic, Riga Cup, VIA |
+| 4 | Capabilities | light | How deep is the testing and engineering? |
+| 5 | Toolset | gray | Which stack, exactly? |
+| 6 | About | dark | Who is the person? The football story, as the human close |
+| 7 | Contact | light | The ask |
+
+Changes from the previous order (Hero, Capabilities, About, Work, Experience, Toolset, Contact):
+- **Work moves from 4th to 2nd.** Evidence over adjectives is a stated product principle; it was a screen and a half down.
+- **Capabilities moves behind the proof.** The hero now states the three outcomes, so Capabilities led with a repeat. After the proof it reads as depth.
+- **About moves from 3rd to 6th.** The football story is the strongest closer and the weakest opener: it builds trust right before "Let's build something solid", and it delayed the proof before.
+- **Experience moves up to 3rd.** For Danish employers a named, checkable employer is proof of the same weight as a product.
+- **Toolset becomes gray** so it no longer sits dark against dark About. The nav links follow the page order.
+- **Still open:** Capabilities and the hero's three outcomes cover similar ground. If the page feels repetitive, merge Capabilities into the Toolset band.
+
+---
+
+## 15. Scenes: one composed screen per scroll, on every device
+
+**Brief:** "make perfect view parts for each scroll, must be responsive on all devices."
+
+### The scene system
+- Every band is a **scene** (`data-scene`, `.scene` in `globals.css`): at least one screen tall (`100svh`), content centred, with its own padding under the fixed header. So wherever a scroll lands, the view is a heading plus the thing it introduces, with no neighbour peeking in.
+- Spacing inside scenes is measured in screen **height** (`svh` clamps), so one scene recomposes on a short laptop, a tall phone and a tablet instead of overflowing.
+- **Work** is a sequence of scenes: a heading scene with an index of the projects (the tour at a glance, each row a link), then one scene per project (title, photo, description, facts, links, and Riga Cup's awards photo beside the facts), a separate scene for the webshop's "what is included", and the repositories.
+- **Contact and the footer share one screen** (`.scene-last`).
+- The hero is a scene too. It was 849px on a 768px screen, so the first scroll moved the page 81px to a pointless second view. Its spacing is now height-based and it is exactly one screen at 1920x1080, 1440x900, 1366x768 and 1901x877.
+- A scene whose content is taller than the screen (a phone, a short laptop) simply grows and scrolls natively.
+
+### Measured fit (scene height / screen height, `audit` over all 13 scenes)
+| Screen | Scenes taller than one screen |
+|---|---|
+| 1920x1080, 1440x900 | none |
+| 1366x768 | Capabilities 1.16x, About 1.08x |
+| 1280x720 | Teamwear offer 1.06x, Capabilities 1.25x, About 1.17x |
+| 820x1180 tablet | Teamwear offer 1.48x, Riga Cup 1.11x, About 1.32x |
+| 390x844 phone | most scenes, 1.2x to 2.2x |
+No horizontal overflow at any size.
+
+### Project views: text first, a modest photo
+**Feedback:** "make the website easily viewable, less images across the screen, more information."
+
+A full-width photo made each project a banner with a caption. Each project is now a two-column view (`Specimen` in `Work.jsx`):
+- **Left, about 60% (7 of 12 columns): the information.** The description at a larger size, then "What it does" (the feature list), "Built with" (the stack), the links, and Riga Cup's awards photo kept small and quiet. On a phone this column comes first, so the reader meets the project before the picture.
+- **Right, about 40% (5 of 12 columns): the photo and the facts.** The photo whole at its real ratio, 519px wide on a 1440px screen (it was 1325px), then the Role, Year and Status rail. PNTA shows its dashboard large with the web and mobile shots below, each whole.
+- **What "more information" means here, and what it does not.** Nothing was invented. The Teamwear Webshop already carries a real feature list (the terms in its "what is included" block), which is now shown up front as a quick-scan list; the "what is included" scene stays below it for the detail. Riga Cup and PNTA have only a description, stack, links and facts, so they show exactly that, larger. Adding more would need real content from the owner (what Bruno built, decisions, outcomes), not a layout change.
+- New labels in all three locales: `work.featuresLabel`, `work.builtWith`.
+- Verified at 1800x720, 1440x900, 1024x768, 820x1180, 390x844 and 360x640, and in Danish and Russian: no horizontal overflow, no console errors.
+- Photos are never cropped. The one deliberate crop left: the very wide webshop capture below 640px, where its headline would otherwise be unreadable.
+- The Aarhus placeholder is a field of roughly a photo's footprint, openly labelled "In progress".
+
+---
+
+## 16. Scroll guidance: removed
+
+**Decision:** "scroll behaviour is not consistent. If you cannot make it perfect, remove it." It is removed. Scrolling is the browser's own again.
+
+**What was removed:** the wheel guide (`useGuidedScroll`, which paged the page one stop per gesture) and the touch snapping (`scroll-snap-type: proximity` for coarse pointers), with the `data-scene` and `data-view` markers that only they read.
+
+**Why it cannot be perfect:** a script that takes over the wheel has to infer, from a stream of numbers, what each kind of mouse and trackpad is doing: where one gesture ends, whether a burst is a swipe or a coasting tail, whether a fast spin means one scene or five. The tests here were synthesised wheel events in Chromium, which cannot reproduce a real trackpad's rise, coast and noise, so "passes in tests" never meant "consistent on the reader's device". Two earlier attempts had already failed for the same reason: CSS scroll-snap bounced a one-notch wheel scroll back to the nearest edge, and a lockout after each move swallowed the next scroll so the reader had to scroll five times. Touch snapping, tested only in Chromium emulation, settled mid-scene as often as on a scene edge.
+
+**What is kept** (none of it touches scrolling): the scene layouts (each band is at least one screen tall with its content centred and spacing measured in screen height), the Work index and one composed view per project, the whole project photos, Contact sharing its screen with the footer, the new page order, and the reveal observer fix so nothing in the bottom strip of a screen waits for another scroll. Anchor links and the nav still work and land with the section heading clear of the fixed header, because each scene pads itself for the header.
+
+**If this is revisited:** do it only with real devices in hand (a Mac trackpad, a Windows precision touchpad, a notched mouse, an iPhone and an Android phone), and judge it by whether the reader ever has to think about scrolling.

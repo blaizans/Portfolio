@@ -1,8 +1,12 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo } from "react";
+import { useRouter } from "next/router";
 import { LOCALES, translations } from "@/data/locales";
 
-const STORAGE_KEY = "bl-locale";
 const DEFAULT_LOCALE = "en";
+// Same cookie Next.js and src/proxy.js use, so an explicit choice sticks
+// and the first-visit redirect never overrides it.
+const LOCALE_COOKIE = "NEXT_LOCALE";
+const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
 const LocaleContext = createContext({
   locale: DEFAULT_LOCALE,
@@ -14,44 +18,27 @@ function isSupported(value) {
   return LOCALES.includes(value);
 }
 
+/**
+ * The locale is the URL (/, /da, /ru), so the server renders the right
+ * language and crawlers see a separate document per language.
+ */
 export function LocaleProvider({ children }) {
-  // Always start from the default so server and first client render match;
-  // the stored/browser preference is applied after mount.
-  const [locale, setLocaleState] = useState(DEFAULT_LOCALE);
+  const router = useRouter();
+  const locale = isSupported(router.locale) ? router.locale : DEFAULT_LOCALE;
 
-  useEffect(() => {
-    let next = null;
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (isSupported(stored)) next = stored;
-    } catch {
-      // localStorage can throw in private mode; fall through to navigator.
-    }
-
-    if (!next) {
-      const preferred = (navigator.languages || [navigator.language || ""])
-        .map((tag) => String(tag).slice(0, 2).toLowerCase())
-        .find(isSupported);
-      if (preferred) next = preferred;
-    }
-
-    if (next && next !== DEFAULT_LOCALE) setLocaleState(next);
-  }, []);
-
-  // Keep <html lang> honest for screen readers and search engines.
+  // Server sets <html lang> on first load; keep it right across client-side switches.
   useEffect(() => {
     document.documentElement.lang = translations[locale].htmlLang;
   }, [locale]);
 
-  const setLocale = useCallback((next) => {
-    if (!isSupported(next)) return;
-    setLocaleState(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // Persisting is best-effort only.
-    }
-  }, []);
+  const setLocale = useCallback(
+    (next) => {
+      if (!isSupported(next) || next === locale) return;
+      document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=${COOKIE_MAX_AGE_SECONDS}; samesite=lax`;
+      router.push(router.asPath, router.asPath, { locale: next, scroll: false, shallow: true });
+    },
+    [locale, router],
+  );
 
   const value = useMemo(
     () => ({ locale, setLocale, t: translations[locale] }),

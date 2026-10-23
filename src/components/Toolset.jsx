@@ -14,15 +14,18 @@ const Toolset = () => {
   const { t } = useLocale();
 
   return (
-    <Zone tone="dark" density="compact" id="toolset" labelledBy="toolset-title">
+    <Zone tone="gray" scene id="toolset" labelledBy="toolset-title">
       <SectionHeaderCompact
         id="toolset-title"
         eyebrow={t.toolset.eyebrow}
         title={t.toolset.lead}
       />
 
-      <div className="shell mt-12">
-        <div className="grid gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="shell" style={{ marginTop: "clamp(1.5rem, 5svh, 3rem)" }}>
+        <div
+          className="grid gap-x-12 sm:grid-cols-2 lg:grid-cols-3"
+          style={{ rowGap: "clamp(1.75rem, 6svh, 3.5rem)" }}
+        >
           {toolset.map((group, index) => (
             <section
               key={group.group}
@@ -44,7 +47,7 @@ const Toolset = () => {
 
               <ul className="inventory-list mt-4" data-count={group.items.length}>
                 {group.items.map((item) => (
-                  <li key={item} style={{ fontSize: "1.0625rem", lineHeight: 1.5 }}>
+                  <li key={item} style={{ fontSize: "clamp(1.0625rem, 0.95rem + 0.35vw, 1.25rem)", lineHeight: 1.5 }}>
                     {t.toolset.items[item] ?? item}
                   </li>
                 ))}
