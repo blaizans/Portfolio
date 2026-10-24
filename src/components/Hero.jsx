@@ -182,8 +182,9 @@ const Hero = () => {
                 <li key={item.name}>
                   <a
                     href={item.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
+                    {...(item.href.startsWith("http")
+                      ? { target: "_blank", rel: "noreferrer noopener" }
+                      : {})}
                     className="link"
                     style={{
                       fontFamily: "var(--display-font)",

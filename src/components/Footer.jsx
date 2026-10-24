@@ -12,7 +12,7 @@ const Footer = () => {
           the footer is a colophon rather than a third closing statement. */}
       <div className="shell flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 py-7">
         <p className="mono t-muted">
-          © {year} {profile.name} — {t.footer.built}
+          © {year} {profile.name}
         </p>
 
         <a href="#top" className="link mono t-muted">

@@ -11,11 +11,11 @@ export const profile = {
   tagline: "I build and test software that holds up in production.",
   // Hero pitch: what a visitor gets, not just what I am.
   pitch:
-    "Full-stack engineer and test specialist. I ship web platforms that real people use every day, and I make sure they keep working after launch.",
-  hiringNote: "Available for full-time roles and freelance projects",
+    "Full-stack developer. I ship web platforms that real people use every day, and I keep them working after launch.",
+  hiringNote: "Available 12-20 hours a week from February 2027",
   intro:
-    "Full-stack engineer and test specialist. I have shipped e-commerce and tournament platforms that are live and in daily use, and spent two years doing test engineering and automation at Systematic, Denmark's largest privately owned IT company. Full-stack background across Java, .NET and TypeScript.",
-  availability: "Available now",
+    "Full-stack developer. I have shipped e-commerce and tournament platforms that are live and in daily use. Full-stack background across Java, .NET and TypeScript.",
+  availability: "From February 2027",
   github: "https://github.com/blaizans?tab=repositories",
   socials: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/bruno-laizans/" },
@@ -29,7 +29,7 @@ export const profile = {
  * Proper nouns, so they are not translated.
  */
 export const heroProof = [
-  { name: "Systematic", href: "https://systematic.com/da-dk/" },
+  { name: "Systematic", href: "#experience" },
   { name: "Riga Cup", href: "https://rigacup.lv/winter" },
   { name: "Teamwear Webshop", href: "https://teamsport-dk.vercel.app" },
 ];
@@ -42,35 +42,35 @@ export const stats = [
 ];
 
 /**
- * Order is deliberate: Testing & QA leads because it is the differentiator a
- * neighbouring full-stack portfolio cannot truthfully copy. `lead: true` marks
- * the row the design elevates — it is not styling metadata for every entry.
+ * Order is deliberate: frontend and full-stack lead, because that is the work
+ * being offered; testing comes last. `lead: true` marks the row the design
+ * elevates, it is not styling metadata for every entry.
  *
- * `title`/`body` here are reference copy only — Capabilities.jsx actually
+ * `title`/`body` here are reference copy only: Capabilities.jsx actually
  * renders `t.capabilities.items[index]` from locales.js. Keep both in sync;
  * `tags` and `lead` are the fields consumed directly from this array.
  */
 export const capabilities = [
   {
-    title: "Testing & QA",
-    body: "Two years of mission-critical testing at Systematic. Automated test suites, regression coverage and CI pipelines for large-scale systems where defects carry real cost.",
-    tags: ["Automation", "Regression", "CI/CD", "Test Design"],
-    lead: true,
-  },
-  {
-    title: "Backend Development",
-    body: "REST APIs and service layers in Java/Spring Boot and .NET. Relational data modelling with PostgreSQL and MySQL, containerised with Docker.",
-    tags: ["Java", "Spring Boot", ".NET", "C#", "PostgreSQL"],
-  },
-  {
     title: "Frontend Development",
     body: "Production interfaces with React and Next.js. Typed, accessible, and built mobile-first, including the site you are reading.",
     tags: ["TypeScript", "React", "Next.js", "Tailwind"],
+    lead: true,
+  },
+  {
+    title: "Full-stack & Backend",
+    body: "REST APIs and service layers in Java/Spring Boot and .NET, wired to React frontends. Relational data modelling with PostgreSQL and MySQL, containerised with Docker.",
+    tags: ["Java", "Spring Boot", ".NET", "C#", "PostgreSQL"],
   },
   {
     title: "Cloud & Delivery",
     body: "Deploying and operating on Azure. Scrum delivery with Jira, UML modelling, and code review as a normal part of shipping.",
     tags: ["Azure", "Docker", "Scrum", "Jira"],
+  },
+  {
+    title: "Testing",
+    body: "End-to-end tests with Playwright on desktop Chrome, Android and iPhone for the webshop, with regression checks and test design as a normal part of delivery.",
+    tags: ["Playwright", "Regression", "Test Design"],
   },
 ];
 
@@ -89,7 +89,7 @@ export const projects = [
     year: "2025",
     role: "Full-stack",
     body: "A multilingual, multi-currency webshop with a loyalty programme, a built-in finance dashboard and AI-written product pages. Built end to end and run as a real football teamwear business. Ready for a new business, with a new UI.",
-    stack: ["Next.js", "React", "Firebase", "Stripe", "Vercel", "Vitest", "Playwright"],
+    stack: ["Next.js", "React", "Firebase", "Stripe", "Vercel", "Playwright"],
     // Cropped to the storefront: the original capture included the previous
     // brand's header bar, which is deliberately not shown.
     image: "/storefront-reference.png",
@@ -105,7 +105,7 @@ export const projects = [
   },
   {
     title: "Riga Cup",
-    year: "2024",
+    year: "2023",
     role: "Full-stack",
     body: "Tournament platform for one of the largest youth football tournaments in the Baltics. Schedules, results and team management serving thousands of visitors.",
     stack: ["TypeScript", "Next.js", "Firebase"],
@@ -117,92 +117,38 @@ export const projects = [
     links: [{ label: "Live site", href: "https://rigacup.lv/winter" }],
   },
   {
-    title: "PNTA",
+    title: "Party App (PNTA)",
     year: "2025",
     role: "Full-stack",
     status: "statusValueAcademic",
     body: "Event-discovery ecosystem built for a bachelor thesis: a React Native app for attendees, a Next.js dashboard for venue managers, a Spring Boot/PostgreSQL backend serving both, and a Python model predicting event attendance.",
     stack: ["React Native", "Next.js", "Spring Boot", "PostgreSQL", "Python", "ML"],
-    // Three distinct surfaces, not crops of one shot — rendered as a 3-up
-    // plate instead of the single 16:9 image the other specimens use.
+    // Three distinct surfaces, not crops of one shot, rendered as a 3-up
+    // plate. Each plate links to its own repository; the promo site has no
+    // repository of its own listed here, so its plate is not a link.
     images: [
-      { src: "/pnta-dashboard.png", labelKey: "dashboard", width: 939, height: 527 },
+      {
+        src: "/pnta-dashboard.png",
+        labelKey: "dashboard",
+        width: 939,
+        height: 527,
+        href: "https://github.com/PNTAbach/VenueWebApp",
+      },
       { src: "/pnta-web.png", labelKey: "promoSite", width: 940, height: 449 },
-      { src: "/pnta-mobile.png", labelKey: "mobileApp", width: 940, height: 387 },
+      {
+        src: "/pnta-mobile.png",
+        labelKey: "mobileApp",
+        width: 940,
+        height: 387,
+        href: "https://github.com/PNTAbach/PNTAapp",
+      },
     ],
     links: [
       { label: "Mobile", href: "https://github.com/PNTAbach/PNTAapp" },
-      { label: "Web", href: "https://github.com/PNTAbach/VenueWebApp" },
+      { label: "Dashboard", href: "https://github.com/PNTAbach/VenueWebApp" },
       { label: "Backend", href: "https://github.com/PNTAbach/Backend" },
       { label: "ML model", href: "https://github.com/PNTAbach/EventPredictionModel" },
     ],
-  },
-  {
-    // No public name, link, or screenshot yet — `placeholder: true` tells
-    // Specimen to render the abstract "in progress" plate instead of an
-    // <Image>, and to skip the plate/links being clickable. Every other
-    // fact here (year, role, status) is true today; nothing is invented.
-    title: "Aarhus Webshop",
-    year: "2026",
-    role: "Full-stack",
-    status: "statusValueInProgress",
-    body: "E-commerce site for an Aarhus-based entrepreneur, currently in development.",
-    stack: ["E-commerce"],
-    placeholder: true,
-    links: [],
-  },
-];
-
-/** Smaller course and side projects, listed compactly and linked to GitHub. */
-export const repositories = [
-  {
-    title: "VIATAB",
-    year: "2023",
-    body: "Java tabloid application with full CRUD on sensational stories and a DevOps deployment pipeline.",
-    stack: ["Java", "REST", "DevOps"],
-    href: "https://github.com/blaizans/VIATAB",
-  },
-  {
-    title: "SyncTask",
-    year: "2023",
-    body: "Distributed task management across a .NET service, a Spring Boot API and a Blazor client.",
-    stack: [".NET", "Spring Boot", "Blazor"],
-    href: "https://github.com/blaizans/SyncTask-2.0",
-  },
-  {
-    title: "Pokédex",
-    year: "2023",
-    body: "Client-side app on the PokéAPI with search, filtering and detail views. Deployed and live.",
-    stack: ["JavaScript", "Tailwind", "REST"],
-    href: "https://github.com/blaizans/pokedex",
-  },
-  {
-    title: "Slaughterhouse API",
-    year: "2023",
-    body: "REST API modelling full product traceability from intake to packaged output.",
-    stack: ["Java", "Spring Boot", "PostgreSQL"],
-    href: "https://github.com/blaizans/Slaughterhouse-API",
-  },
-  {
-    title: "n-Queens Solver",
-    year: "2023",
-    body: "Backtracking solver for the n-Queens puzzle, an exercise in constraint search and algorithm design.",
-    stack: ["Java", "Algorithms"],
-    href: "https://github.com/blaizans/nQueensProblem",
-  },
-  {
-    title: "TicTacTwo",
-    year: "2022",
-    body: "One game implemented twice, object-oriented and purely functional, to compare paradigms.",
-    stack: ["HTML", "CSS", "JavaScript"],
-    href: "https://github.com/blaizans/TicTacTwo",
-  },
-  {
-    title: "Portfolio",
-    year: "2026",
-    body: "This site. Zone-based theming and a hand-written interactive canvas, no animation libraries.",
-    stack: ["Next.js", "Tailwind", "CSS"],
-    href: "https://github.com/blaizans/Portfolio",
   },
 ];
 
@@ -211,14 +157,15 @@ export const experience = [
     org: "Systematic",
     role: "Test Engineer",
     period: "2024–2026",
-    body: "Test engineering and automation at Denmark's largest privately owned IT company.",
+    // Bullets come from the CV: set in locales.js `experience.bodies.Systematic`.
+    body: "",
     href: "https://systematic.com/da-dk/",
   },
   {
     org: "Riga Cup",
-    role: "Volunteer & Developer",
+    role: "Developer & Tournament Manager",
     period: "2016–Now",
-    body: "Long-running involvement with the tournament, latterly building and maintaining its web platform.",
+    body: "Family-run and voluntary. I build and maintain the web platform, and handle ads, scheduling and logistics.",
     href: "https://rigacup.lv/winter/",
   },
   {
@@ -233,9 +180,9 @@ export const experience = [
 export const education = [
   {
     org: "VIA University College",
-    role: "BSc Software Engineering",
-    period: "2022–2025",
-    body: "Bachelor's degree in software engineering, Horsens.",
+    role: "BEng Software Technology Engineering",
+    period: "Expected Feb 2027",
+    body: "Bachelor of Engineering in software technology, Horsens.",
     href: "https://www.via.dk/",
   },
   {

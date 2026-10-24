@@ -428,3 +428,15 @@ A full-width photo made each project a banner with a caption. Each project is no
 **What is kept** (none of it touches scrolling): the scene layouts (each band is at least one screen tall with its content centred and spacing measured in screen height), the Work index and one composed view per project, the whole project photos, Contact sharing its screen with the footer, the new page order, and the reveal observer fix so nothing in the bottom strip of a screen waits for another scroll. Anchor links and the nav still work and land with the section heading clear of the fixed header, because each scene pads itself for the header.
 
 **If this is revisited:** do it only with real devices in hand (a Mac trackpad, a Windows precision touchpad, a notched mouse, an iPhone and an Android phone), and judge it by whether the reader ever has to think about scrolling.
+
+---
+
+## 17. Employer-facing pass (October 2026)
+
+**Context:** the site is read by recruiters at companies such as Terma and Nitor. Availability is now 12-20 hours a week from February 2027, as a student job (studiejob).
+
+- **Order of what I do:** frontend and full-stack first, testing last. The "specialism" flag is now "Main focus" on Frontend.
+- **One place for Systematic:** the Experience entry. The hero proof row links to it (`#experience`) instead of repeating the claim.
+- **Stats:** shown at their final values at all times. No count-up, so screenshots and no-JS views are correct.
+- **Older projects:** one quiet line linking to GitHub instead of seven cards.
+- **Footer:** the colophon is just the copyright line.

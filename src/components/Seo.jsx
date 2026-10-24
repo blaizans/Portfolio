@@ -17,8 +17,6 @@ const WEBSITE_ID = `${SITE_URL}/#website`;
 const SERVICE_ID = `${SITE_URL}/#service`;
 
 const KNOWS_ABOUT = [
-  "Software testing",
-  "Test automation",
   "Web development",
   "E-commerce",
   "Java",
@@ -29,6 +27,7 @@ const KNOWS_ABOUT = [
   "React",
   "Next.js",
   "PostgreSQL",
+  "Software testing",
 ];
 
 function buildGraph({ locale, t, url }) {
@@ -97,7 +96,6 @@ function buildGraph({ locale, t, url }) {
   const work = {
     "@type": "ItemList",
     itemListElement: projects
-      .filter((project) => !project.placeholder)
       .map((project, index) => ({
         "@type": "ListItem",
         position: index + 1,

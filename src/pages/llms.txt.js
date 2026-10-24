@@ -1,6 +1,6 @@
 import { translations } from "@/data/locales";
 import { SITE_URL, localeUrl } from "@/data/seo";
-import { education, experience, profile, projects, repositories } from "@/data/site";
+import { education, experience, profile, projects } from "@/data/site";
 import { EmptyPage, serveText } from "@/lib/serveText";
 
 // Plain-text summary for language models (llms.txt convention). Built from the
@@ -14,9 +14,8 @@ const buildLlms = () =>
     `> ${translations.en.seo.description}`,
     "",
     `${profile.name} is a ${profile.role.toLowerCase()} based in ${profile.location}. ` +
-      "Day job: test engineer at Systematic (Denmark's largest privately owned IT company). " +
       "Full-stack across Java, .NET and TypeScript, with two products in production. " +
-      "Open to freelance projects (websites, web apps, web shops, software testing and test automation) and to full-time roles.",
+      "Available 12-20 hours a week from February 2027 for a student job (studiejob) building websites, web apps and web shops.",
     "",
     `Dansk: ${translations.da.seo.description}`,
     "",
@@ -31,11 +30,10 @@ const buildLlms = () =>
     "",
     "## Selected work",
     ...projects
-      .filter((project) => !project.placeholder)
       .map((project) => link(`${project.title} (${project.year})`, project.links?.[0]?.href ?? SITE_URL, project.body)),
     "",
     "## Other projects",
-    ...repositories.map((repo) => link(`${repo.title} (${repo.year})`, repo.href, repo.body)),
+    link("More on GitHub", profile.github, "older course and side projects"),
     "",
     "## Experience and education",
     ...experience.map((item) => `- ${item.org}: ${item.role}, ${item.period}`),

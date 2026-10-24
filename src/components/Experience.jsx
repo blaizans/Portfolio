@@ -12,6 +12,26 @@ import { useLocale } from "@/i18n/LocaleContext";
  * vertical column of their own.
  */
 
+/** One line renders as a paragraph, several as a short bulleted list, none as nothing. */
+function EntryBody({ body }) {
+  const lines = [].concat(body || []);
+  if (lines.length === 0) return null;
+  if (lines.length === 1) {
+    return (
+      <p className="t-muted mt-2.5 text-sm" style={{ maxWidth: "52ch" }}>
+        {lines[0]}
+      </p>
+    );
+  }
+  return (
+    <ul className="t-muted mt-2.5 list-disc space-y-1 pl-4 text-sm" style={{ maxWidth: "52ch" }}>
+      {lines.map((line) => (
+        <li key={line}>{line}</li>
+      ))}
+    </ul>
+  );
+}
+
 function Timeline({ label, entries, startIndex }) {
   const { t } = useLocale();
 
@@ -23,7 +43,7 @@ function Timeline({ label, entries, startIndex }) {
         {entries.map((entry, index) => (
           <div key={entry.org} className="timeline-entry reveal" style={{ "--i": startIndex + index }}>
             <div className="grid gap-x-6 gap-y-1 sm:grid-cols-[7.5rem_minmax(0,1fr)]">
-              <span className="mono t-muted pt-1">{entry.period}</span>
+              <span className="mono t-muted pt-1">{t.experience.periods?.[entry.period] ?? entry.period}</span>
 
               <div>
                 <h4 className="t-title timeline-org">
@@ -39,9 +59,7 @@ function Timeline({ label, entries, startIndex }) {
                 <p className="mono t-muted mt-1.5">
                   {t.experience.roles[entry.role] ?? entry.role}
                 </p>
-                <p className="t-muted mt-2.5 text-sm" style={{ maxWidth: "52ch" }}>
-                  {t.experience.bodies[entry.org] ?? entry.body}
-                </p>
+                <EntryBody body={t.experience.bodies[entry.org] ?? entry.body} />
               </div>
             </div>
           </div>

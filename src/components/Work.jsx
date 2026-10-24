@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Zone, Eyebrow } from "@/components/ui/Zone";
 import Offer from "@/components/Offer";
-import { projects, repositories, profile } from "@/data/site";
+import { projects, profile } from "@/data/site";
 import { useLocale } from "@/i18n/LocaleContext";
 
 /**
@@ -13,7 +13,7 @@ import { useLocale } from "@/i18n/LocaleContext";
  * 2. One scene per project: title, plate, description and facts, composed to
  *    fit a single screen. The plate takes only the height left over.
  * 3. An extra scene for a project that is also an offer.
- * 4. The smaller repositories, kept quiet.
+ * 4. One quiet line pointing to the older projects on GitHub.
  *
  * Shipped products are specimens rather than list items: a plate in colour, a
  * poster-scale title, and a spec rail carrying only facts that exist in the
@@ -203,22 +203,17 @@ function Specimen({ project, index, t }) {
             ) : null}
           </div>
 
-          {/* The picture and the facts: a modest column, not a banner. PNTA is
-              three distinct surfaces, so it shows one large and two small. A
-              `placeholder` project has no screenshot, so an abstract field
-              stands in, openly labelled. */}
+          {/* The picture and the facts: a modest column, not a banner. Party App
+              (PNTA) is three distinct surfaces, so it shows one large and two
+              small. */}
           <div className="reveal lg:col-span-5" style={{ "--i": 2 }}>
-            {project.placeholder ? (
-              <div className="specimen-plate specimen-placeholder" aria-hidden="false">
-                <span className="specimen-placeholder-label mono">{t.work.placeholderLabel}</span>
-              </div>
-            ) : project.images ? (
+            {project.images ? (
               <div className="specimen-plate-grid grid grid-cols-2 gap-3">
                 {project.images.map((img, imageIndex) => (
                   <Plate
                     key={img.src}
                     className={imageIndex === 0 ? "col-span-2" : ""}
-                    link={primaryLink}
+                    link={img.href ? { href: img.href } : null}
                     label={`${project.title} — ${t.work.plateLabels[img.labelKey] ?? img.labelKey}`}
                   >
                     <Image
@@ -320,13 +315,13 @@ const Work = () => {
         <Specimen key={project.title} project={project} index={index} t={t} />
       ))}
 
-      {/* Secondary tier: deliberately quiet, so the specimens keep their weight */}
+      {/* Older course and side projects: one quiet line, not seven cards */}
       <div className="scene shell">
         <div
-          className="reveal flex flex-wrap items-baseline justify-between gap-4 border-t pt-6"
+          className="reveal flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 border-t pt-6"
           style={{ borderColor: "var(--t-line)" }}
         >
-          <h3 className="mono t-muted">{t.work.otherProjects}</h3>
+          <p className="t-muted text-sm">{t.work.otherProjects}</p>
           <a
             href={profile.github}
             target="_blank"
@@ -335,28 +330,6 @@ const Work = () => {
           >
             {t.work.allRepos} ↗
           </a>
-        </div>
-
-        <div className="rows mt-6">
-          {repositories.map((repo, index) => (
-            <a
-              key={repo.title}
-              href={repo.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="row-item row-fill reveal block"
-              style={{ "--i": index, textDecoration: "none", color: "inherit" }}
-            >
-              <div
-                className="grid items-baseline gap-x-8 gap-y-2 px-4 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)_auto]"
-                style={{ paddingBlock: "clamp(0.6rem, 1.9svh, 1.5rem)" }}
-              >
-                <h4 className="t-title">{repo.title}</h4>
-                <p className="t-muted text-sm">{repo.body}</p>
-                <span className="mono t-muted">{repo.year} ↗</span>
-              </div>
-            </a>
-          ))}
         </div>
       </div>
     </Zone>
